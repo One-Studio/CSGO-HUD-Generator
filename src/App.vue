@@ -1,16 +1,19 @@
 <template>
   <div id="app">
-    <NavBar />
+    <DeathNotice/>
+<!--    <NavBar />-->
   </div>
 </template>
 
 <script>
-import NavBar from './components/navBar.vue'
+// import NavBar from './components/navBar.vue'
+import DeathNotice from './components/DeathNotice.vue'
 
 export default {
   name: 'app',
   components: {
-    NavBar: NavBar
+    // NavBar: NavBar
+    DeathNotice: DeathNotice
   }
 }
 </script>
