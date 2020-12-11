@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div style="background: antiquewhite;width: 500px;height: max-content;margin: auto;margin-top: 80px; padding: 10px">
+    <div style="background: antiquewhite;width: 500px;height: max-content;margin: 30px auto auto auto;border-radius: 3%;padding: 30px">
       <a-form-model :model="dnItem" :label-col="labelCol" :wrapper-col="wrapperCol">
         <a-form-model-item label="击杀者">
           <a-input v-model="dnItem.attacker"/>
@@ -10,7 +10,7 @@
         </a-form-model-item>
 
         <a-form-model-item label="武器">
-          <a-select v-model="dnItem.weapon" default-value="ak47" style="width: 200px" @change="handleChange">
+          <a-select v-model="dnItem.weapon" default-value="ak47" style="" @change="handleChange">
               <a-select-option value="ak47">ak47</a-select-option>
               <a-select-option value="ammobox">ammobox</a-select-option>
               <a-select-option value="ammobox_threepack">ammobox_threepack</a-select-option>
@@ -129,8 +129,14 @@
             placeholder="select"
             option-label-prop="label"
           >
-            <a-select-option value="1">
-              1
+            <a-select-option value="Revenge" label="Revenge">
+              Revenge
+            </a-select-option>
+            <a-select-option value="Domination" label="Domination">
+              Domination
+            </a-select-option>
+            <a-select-option value="AttackerBlind" label="AttackerBlind">
+              AttackerBlind
             </a-select-option>
           </a-select>
         </a-form-model-item>
@@ -142,8 +148,26 @@
             placeholder="select"
             option-label-prop="label"
           >
-            <a-select-option value="1">
-              1
+            <a-select-option value="NoScope" label="NoScope">
+              NoScope
+            </a-select-option>
+            <a-select-option value="JumpKill" label="JumpKill">
+              JumpKill
+            </a-select-option>
+            <a-select-option value="ThroughSmoke" label="ThroughSmoke">
+              ThroughSmoke
+            </a-select-option>
+            <a-select-option value="Penetrate" label="Penetrate">
+              Penetrate
+            </a-select-option>
+            <a-select-option value="HeadShot" label="HeadShot">
+              HeadShot
+            </a-select-option>
+            <a-select-option value="Suicide" label="Suicide">
+              Suicide
+            </a-select-option>
+            <a-select-option value="Kill360" label="Kill360">
+              Kill360
             </a-select-option>
           </a-select>
         </a-form-model-item>
@@ -162,24 +186,34 @@
 <!--        </a-form-model-item>-->
       </a-form-model>
     </div>
+    <div id="OutputDiv" ref="Output">
+      <div ref="" style="margin-top: 40px;" v-for="(item,i) in dNotices" :key="i">
+        <div class="deathNotice">{{i}} {{item.test}}</div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import html2canvas from 'html2canvas'
+
 export default {
   name: 'DeathNotice',
   data () {
     return {
       labelCol: { span: 4 },
-      wrapperCol: { span: 14 },
+      wrapperCol: { span: 18 },
       dnItem: {
         attacker: '',
         victim: '',
         weapon: '',
-        prefixIcon: '',
-        suffixIcon: '',
+        prefixIcon: [],
+        suffixIcon: [],
         redBorder: ''
-      }
+      },
+      dNotices: [
+        { test: 'A Kill B' }
+      ]
     }
   },
   methods: {
@@ -187,7 +221,30 @@ export default {
       console.log(`selected ${value}`)
     },
     generate () {
-      console.log('hello')
+      // html2canvas(this.$refs.Output, {
+      //   // 转换为图片
+      //   useCORS: true // 解决资源跨域问题
+      // }).then(canvas => {
+      //   console.log(canvas, 'canvas')
+      //   const dataURL = canvas.toDataURL('image/png')
+      //   this.showImg = true
+      //   this.imgUrl = dataURL
+      // })
+      const e = document.getElementById(OutputDiv)
+      const item = this.$refs.Output
+      // item.appendChild()
+      html2canvas(item).then(canvas => {
+        const dataURL = canvas.toDataURL('image/png')
+        this.imgUrl = dataURL
+        if (this.imgUrl !== '') {
+          const link = document.createElement('a')
+          link.href = canvas.toDataURL()
+          link.setAttribute('download', '击杀.png')
+          link.style.display = 'none'
+          document.body.appendChild(link)
+          link.click()
+        }
+      })
     }
   }
 }
@@ -195,5 +252,16 @@ export default {
 </script>
 
 <style scoped>
+#OutputDiv{
+  height: 1080px;
+  width: 1920px;
+  background: pink;
+}
 
+.deathNotice{
+  background: azure;
+  width: max-content;
+  float: right;
+  margin: 10px 10px 0 0;
+}
 </style>
