@@ -171,6 +171,7 @@
             </a-select-option>
           </a-select>
         </a-form-model-item>
+        <img src="../assets/svg/ak47.svg" width="44" height="32">
         <a-button @click="generate">生成</a-button>
         <a-button @click="test">测试</a-button>
 <!--        <a-form-model-item label="1">-->
@@ -197,6 +198,7 @@
 
 <script>
 import html2canvas from 'html2canvas'
+// import '../assets/svg'
 
 export default {
   name: 'DeathNotice',
