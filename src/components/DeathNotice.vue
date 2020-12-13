@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" id="container">
     <div style="background: antiquewhite;width: 500px;height: max-content;margin: 30px auto auto auto;border-radius: 3%;padding: 30px">
       <a-form-model :model="dnItem" :label-col="labelCol" :wrapper-col="wrapperCol">
         <a-form-model-item label="击杀者">
@@ -172,6 +172,7 @@
           </a-select>
         </a-form-model-item>
         <a-button @click="generate">生成</a-button>
+        <a-button @click="test">测试</a-button>
 <!--        <a-form-model-item label="1">-->
 <!--          <a-input v-model="dnItem.x"/>-->
 <!--        </a-form-model-item>-->
@@ -186,9 +187,9 @@
 <!--        </a-form-model-item>-->
       </a-form-model>
     </div>
-    <div id="OutputDiv" ref="Output">
-      <div ref="" style="margin-top: 40px;" v-for="(item,i) in dNotices" :key="i">
-        <div class="deathNotice">{{i}} {{item.test}}</div>
+    <div id="OutputDiv">
+      <div id="DNArea" style="margin-top: 40px;" v-for="(item,i) in dNotices" :key="i">
+        <div class="deathNotice">{{i}} {{item.test}}</div><br>
       </div>
     </div>
   </div>
@@ -212,7 +213,8 @@ export default {
         redBorder: ''
       },
       dNotices: [
-        { test: 'A Kill B' }
+        { test: 'A Kill B' },
+        { test: 'dd Kill gg' }
       ]
     }
   },
@@ -221,30 +223,42 @@ export default {
       console.log(`selected ${value}`)
     },
     generate () {
-      // html2canvas(this.$refs.Output, {
-      //   // 转换为图片
-      //   useCORS: true // 解决资源跨域问题
-      // }).then(canvas => {
-      //   console.log(canvas, 'canvas')
-      //   const dataURL = canvas.toDataURL('image/png')
-      //   this.showImg = true
-      //   this.imgUrl = dataURL
-      // })
-      const e = document.getElementById(OutputDiv)
-      const item = this.$refs.Output
-      // item.appendChild()
-      html2canvas(item).then(canvas => {
+      const hidpi = 4 // 缩放倍率，不随浏览器缩放改变
+      const e = document.getElementById('OutputDiv')
+      html2canvas(e, {
+        allowTaint: true,
+        useCORS: true,
+        backgroundColor: 'rgba(0,0,0,0)',
+        scale: hidpi
+      }).then(canvas => {
         const dataURL = canvas.toDataURL('image/png')
         this.imgUrl = dataURL
         if (this.imgUrl !== '') {
           const link = document.createElement('a')
+          const context = canvas.getContext('2d')
+          // [重要]关闭抗锯齿
+          context.mozImageSmoothingEnabled = false
+          context.webkitImageSmoothingEnabled = false
+          context.msImageSmoothingEnabled = false
+          context.imageSmoothingEnabled = false
           link.href = canvas.toDataURL()
           link.setAttribute('download', '击杀.png')
           link.style.display = 'none'
           document.body.appendChild(link)
           link.click()
         }
+
+        // // [重要]默认转化的格式为png,也可设置为其他格式
+        // var img = Canvas2Image.convertToJPEG(canvas, canvas.width, canvas.height)
+        // document.body.appendChild(img)
       })
+    },
+    test () {
+      // console.log(document.getElementById('container').clientWidth)
+      // window.devicePixelRatio 窗口缩放比例
+      console.log(window.devicePixelRatio)
+      // const size = window.devicePixelRatio
+      // document.body.style.cssText = document.body.style.cssText + '; -webkit-transform: scale(' + 1 / size + ');-webkit-transform-origin: 0 0;'
     }
   }
 }
@@ -255,11 +269,13 @@ export default {
 #OutputDiv{
   height: 1080px;
   width: 1920px;
-  background: pink;
+  /*background: pink;*/
+   background: rgba(0,0,0,0);
 }
 
 .deathNotice{
-  background: azure;
+  /*background: azure;*/
+  background: rgba(0,0,0,0);
   width: max-content;
   float: right;
   margin: 10px 10px 0 0;
