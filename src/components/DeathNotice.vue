@@ -10,110 +10,11 @@
         </a-form-model-item>
 
         <a-form-model-item label="武器">
-          <a-select v-model="dnItem.weapon" default-value="ak47" style="" @change="handleChange">
-              <a-select-option value="ak47">ak47</a-select-option>
-              <a-select-option value="ammobox">ammobox</a-select-option>
-              <a-select-option value="ammobox_threepack">ammobox_threepack</a-select-option>
-              <a-select-option value="armor">armor</a-select-option>
-              <a-select-option value="armor_helmet">armor_helmet</a-select-option>
-              <a-select-option value="assaultsuit">assaultsuit</a-select-option>
-              <a-select-option value="aug">aug</a-select-option>
-              <a-select-option value="awp">awp</a-select-option>
-              <a-select-option value="axe">axe</a-select-option>
-              <a-select-option value="bayonet">bayonet</a-select-option>
-              <a-select-option value="bizon">bizon</a-select-option>
-              <a-select-option value="breachcharge">breachcharge</a-select-option>
-              <a-select-option value="breachcharge_projectile">breachcharge_projectile</a-select-option>
-              <a-select-option value="bumpmine">bumpmine</a-select-option>
-              <a-select-option value="c4">c4</a-select-option>
-              <a-select-option value="controldrone">controldrone</a-select-option>
-              <a-select-option value="cz75a">cz75a</a-select-option>
-              <a-select-option value="deagle">deagle</a-select-option>
-              <a-select-option value="decoy">decoy</a-select-option>
-              <a-select-option value="defuser">defuser</a-select-option>
-              <a-select-option value="diversion">diversion</a-select-option>
-              <a-select-option value="dronegun">dronegun</a-select-option>
-              <a-select-option value="elite">elite</a-select-option>
-              <a-select-option value="famas">famas</a-select-option>
-              <a-select-option value="firebomb">firebomb</a-select-option>
-              <a-select-option value="fists">fists</a-select-option>
-              <a-select-option value="fiveseven">fiveseven</a-select-option>
-              <a-select-option value="flashbang">flashbang</a-select-option>
-              <a-select-option value="flashbang_assist">flashbang_assist</a-select-option>
-              <a-select-option value="frag_grenade">frag_grenade</a-select-option>
-              <a-select-option value="g3sg1">g3sg1</a-select-option>
-              <a-select-option value="galilar">galilar</a-select-option>
-              <a-select-option value="glock">glock</a-select-option>
-              <a-select-option value="grenadepack">grenadepack</a-select-option>
-              <a-select-option value="grenadepack2">grenadepack2</a-select-option>
-              <a-select-option value="hammer">hammer</a-select-option>
-              <a-select-option value="healthshot">healthshot</a-select-option>
-              <a-select-option value="heavy_armor">heavy_armor</a-select-option>
-              <a-select-option value="hegrenade">hegrenade</a-select-option>
-              <a-select-option value="helmet">helmet</a-select-option>
-              <a-select-option value="hkp2000">hkp2000</a-select-option>
-              <a-select-option value="incgrenade">incgrenade</a-select-option>
-              <a-select-option value="inferno">inferno</a-select-option>
-              <a-select-option value="kevlar">kevlar</a-select-option>
-              <a-select-option value="knife">knife</a-select-option>
-              <a-select-option value="knife_bowie">knife_bowie</a-select-option>
-              <a-select-option value="knife_butterfly">knife_butterfly</a-select-option>
-              <a-select-option value="knife_canis">knife_canis</a-select-option>
-              <a-select-option value="knife_cord">knife_cord</a-select-option>
-              <a-select-option value="knife_css">knife_css</a-select-option>
-              <a-select-option value="knife_falchion">knife_falchion</a-select-option>
-              <a-select-option value="knife_flip">knife_flip</a-select-option>
-              <a-select-option value="knife_gut">knife_gut</a-select-option>
-              <a-select-option value="knife_gypsy_jackknife">knife_gypsy_jackknife</a-select-option>
-              <a-select-option value="knife_karambit">knife_karambit</a-select-option>
-              <a-select-option value="knife_m9_bayonet">knife_m9_bayonet</a-select-option>
-              <a-select-option value="knife_outdoor">knife_outdoor</a-select-option>
-              <a-select-option value="knife_push">knife_push</a-select-option>
-              <a-select-option value="knife_skeleton">knife_skeleton</a-select-option>
-              <a-select-option value="knife_stiletto">knife_stiletto</a-select-option>
-              <a-select-option value="knife_survival_bowie">knife_survival_bowie</a-select-option>
-              <a-select-option value="knife_t">knife_t</a-select-option>
-              <a-select-option value="knife_tactical">knife_tactical</a-select-option>
-              <a-select-option value="knife_ursus">knife_ursus</a-select-option>
-              <a-select-option value="knife_widowmaker">knife_widowmaker</a-select-option>
-              <a-select-option value="knifegg">knifegg</a-select-option>
-              <a-select-option value="m4a1">m4a1</a-select-option>
-              <a-select-option value="m4a1_silencer">m4a1_silencer</a-select-option>
-              <a-select-option value="m4a1_silencer_off">m4a1_silencer_off</a-select-option>
-              <a-select-option value="m249">m249</a-select-option>
-              <a-select-option value="mac10">mac10</a-select-option>
-              <a-select-option value="mag7">mag7</a-select-option>
-              <a-select-option value="molotov">molotov</a-select-option>
-              <a-select-option value="mp5sd">mp5sd</a-select-option>
-              <a-select-option value="mp7">mp7</a-select-option>
-              <a-select-option value="mp9">mp9</a-select-option>
-              <a-select-option value="negev">negev</a-select-option>
-              <a-select-option value="nova">nova</a-select-option>
-              <a-select-option value="p90">p90</a-select-option>
-              <a-select-option value="p250">p250</a-select-option>
-              <a-select-option value="p2000">p2000</a-select-option>
-              <a-select-option value="planted_c4_survival">planted_c4_survival</a-select-option>
-              <a-select-option value="prop_exploding_barrel">prop_exploding_barrel</a-select-option>
-              <a-select-option value="radarjammer">radarjammer</a-select-option>
-              <a-select-option value="revolver">revolver</a-select-option>
-              <a-select-option value="sawedoff">sawedoff</a-select-option>
-              <a-select-option value="scar20">scar20</a-select-option>
-              <a-select-option value="sg556">sg556</a-select-option>
-              <a-select-option value="shield">shield</a-select-option>
-              <a-select-option value="smokegrenade">smokegrenade</a-select-option>
-              <a-select-option value="snowball">snowball</a-select-option>
-              <a-select-option value="spanner">spanner</a-select-option>
-              <a-select-option value="ssg08">ssg08</a-select-option>
-              <a-select-option value="stomp_damage">stomp_damage</a-select-option>
-              <a-select-option value="tablet">tablet</a-select-option>
-              <a-select-option value="tagrenade">tagrenade</a-select-option>
-              <a-select-option value="taser">taser</a-select-option>
-              <a-select-option value="tec9">tec9</a-select-option>
-              <a-select-option value="ump45">ump45</a-select-option>
-              <a-select-option value="usp_silencer">usp_silencer</a-select-option>
-              <a-select-option value="usp_silencer_off">usp_silencer_off</a-select-option>
-              <a-select-option value="xm1014">xm1014</a-select-option>
-              <a-select-option value="zone_repulsor">zone_repulsor</a-select-option>
+          <a-select v-model="dnItem.weapon" default-value="" style="" @change="handleChange">
+              <a-select-option v-for="(item, id) in weapons" :key="id">
+                <img :src="require(`../assets/svg/${item}.svg`)" width="44" height="32" style="background: rgba(0,0,0,0.1);border-radius: 4px">
+                {{item}}
+              </a-select-option>
           </a-select>
         </a-form-model-item>
 
@@ -123,20 +24,15 @@
 
         <a-form-model-item label="前置图标">
           <a-select
-            v-model="dnItem.prefixIcon"
+            v-model="dnItem.prefixIcon">
             mode="multiple"
             style="width: 100%"
             placeholder="select"
             option-label-prop="label"
           >
-            <a-select-option value="Revenge" label="Revenge">
-              Revenge
-            </a-select-option>
-            <a-select-option value="Domination" label="Domination">
-              Domination
-            </a-select-option>
-            <a-select-option value="AttackerBlind" label="AttackerBlind">
-              AttackerBlind
+            <a-select-option v-for="(item, id) in prefixIcons" :key="id">
+              <img :src="require(`../assets/svg/${item}.svg`)" width="44" height="32" style="background: rgba(0,0,0,0.1);border-radius: 4px">
+              {{item}}
             </a-select-option>
           </a-select>
         </a-form-model-item>
@@ -148,6 +44,10 @@
             placeholder="select"
             option-label-prop="label"
           >
+<!--            <a-select-option v-for="(item, id) in suffixIcons" :key="id">-->
+<!--              <img :src="require(`../assets/svg/${item}.svg`)" width="44" height="32" style="background: rgba(0,0,0,0.1);border-radius: 4px">-->
+<!--              {{item}}-->
+<!--            </a-select-option>-->
             <a-select-option value="NoScope" label="NoScope">
               NoScope
             </a-select-option>
@@ -204,14 +104,126 @@ export default {
   name: 'DeathNotice',
   data () {
     return {
+      weapons: [
+        'ak47',
+        'ammobox',
+        'ammobox_threepack',
+        'armor',
+        'armor_helmet',
+        'assaultsuit',
+        'aug',
+        'awp',
+        'axe',
+        'bayonet',
+        'bizon',
+        'breachcharge',
+        'breachcharge_projectile',
+        'bumpmine',
+        'c4',
+        'controldrone',
+        'cz75a',
+        'deagle',
+        'decoy',
+        'defuser',
+        'diversion',
+        'dronegun',
+        'elite',
+        'famas',
+        'firebomb',
+        'fists',
+        'fiveseven',
+        'flashbang',
+        'flashbang_assist',
+        'frag_grenade',
+        'g3sg1',
+        'galilar',
+        'glock',
+        'grenadepack',
+        'grenadepack2',
+        'hammer',
+        'healthshot',
+        'heavy_armor',
+        'hegrenade',
+        'helmet',
+        'hkp2000',
+        'incgrenade',
+        'inferno',
+        'kevlar',
+        'knife',
+        'knife_bowie',
+        'knife_butterfly',
+        'knife_canis',
+        'knife_cord',
+        'knife_css',
+        'knife_falchion',
+        'knife_flip',
+        'knife_gut',
+        'knife_gypsy_jackknife',
+        'knife_karambit',
+        'knife_m9_bayonet',
+        'knife_push',
+        'knife_skeleton',
+        'knife_stiletto',
+        'knife_survival_bowie',
+        'knife_t',
+        'knife_tactical',
+        'knife_ursus',
+        'knife_widowmaker',
+        'knifegg',
+        'm4a1',
+        'm4a1_silencer',
+        'm4a1_silencer_off',
+        'm249',
+        'mac10',
+        'mag7',
+        'molotov',
+        'mp5sd',
+        'mp7',
+        'mp9',
+        'negev',
+        'nova',
+        'p90',
+        'p250',
+        'p2000',
+        'planted_c4_survival',
+        'prop_exploding_barrel',
+        'radarjammer',
+        'revolver',
+        'sawedoff',
+        'scar20',
+        'sg556',
+        'shield',
+        'smokegrenade',
+        'snowball',
+        'spanner',
+        'ssg08',
+        'stomp_damage',
+        'tablet',
+        'tagrenade',
+        'taser',
+        'tec9',
+        'ump45',
+        'usp_silencer',
+        'usp_silencer_off',
+        'xm1014',
+        'zone_repulsor'
+      ],
+      prefixIcons: [
+        'Revenge',
+        'Domination',
+        'AttackerBlind'
+      ],
+      suffixIcons: [
+        ''
+      ],
       labelCol: { span: 4 },
       wrapperCol: { span: 18 },
       dnItem: {
         attacker: '',
         victim: '',
         weapon: '',
-        prefixIcon: [],
-        suffixIcon: [],
+        prefixIcon: [''],
+        suffixIcon: [''],
         redBorder: ''
       },
       dNotices: [
