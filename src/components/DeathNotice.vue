@@ -223,6 +223,7 @@ export default {
       console.log(`selected ${value}`)
     },
     generate () {
+      // TODO: OutputDiv 开始width和height都为auto用作预览，生成的时候设定两个值，生成结束了再恢复
       const hidpi = 4 // 缩放倍率，不随浏览器缩放改变
       const e = document.getElementById('OutputDiv')
       html2canvas(e, {
