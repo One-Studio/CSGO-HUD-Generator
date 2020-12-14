@@ -3,16 +3,16 @@
     <div style="background: antiquewhite;width: 500px;height: max-content;margin: 30px auto auto auto;border-radius: 3%;padding: 30px">
       <a-form-model :model="dnItem" :label-col="labelCol" :wrapper-col="wrapperCol">
         <a-form-model-item label="击杀者">
-          <a-input v-model="dnItem.attacker"/>
+          <a-input v-model="dnItem.attacker" size="large"/>
         </a-form-model-item>
         <a-form-model-item label="被杀者">
-          <a-input v-model="dnItem.victim"/>
+          <a-input v-model="dnItem.victim" size="large"/>
         </a-form-model-item>
 
         <a-form-model-item label="武器">
-          <a-select v-model="dnItem.weapon" default-value="" style="" @change="handleChange">
+          <a-select v-model="dnItem.weapon" default-value="" style="" size="large" @change="handleChange">
               <a-select-option v-for="(item, id) in weapons" :key="id">
-                <img :src="require(`../assets/svg/${item}.svg`)" width="44" height="32" style="background: rgba(0,0,0,0.1);border-radius: 4px">
+                <img :src="require(`../assets/svg/${item}.svg`)" width="42" height="30" style="background: rgba(0,0,0,0.1);border-radius: 4px">
                 {{item}}
               </a-select-option>
           </a-select>
@@ -24,13 +24,15 @@
 
         <a-form-model-item label="前置图标">
           <a-select
-            v-model="dnItem.prefixIcon">
+            v-model="dnItem.prefixIcon"
+            default-value="1"
             mode="multiple"
             style="width: 100%"
+            size="large"
             placeholder="select"
             option-label-prop="label"
           >
-            <a-select-option v-for="(item, id) in prefixIcons" :key="id">
+            <a-select-option v-for="(item, id) in prefixIcons" :key="id" :label="item">
               <img :src="require(`../assets/svg/${item}.svg`)" width="44" height="32" style="background: rgba(0,0,0,0.1);border-radius: 4px">
               {{item}}
             </a-select-option>
@@ -41,37 +43,17 @@
             v-model="dnItem.suffixIcon"
             mode="multiple"
             style="width: 100%"
+            size="large"
             placeholder="select"
             option-label-prop="label"
           >
-<!--            <a-select-option v-for="(item, id) in suffixIcons" :key="id">-->
-<!--              <img :src="require(`../assets/svg/${item}.svg`)" width="44" height="32" style="background: rgba(0,0,0,0.1);border-radius: 4px">-->
-<!--              {{item}}-->
-<!--            </a-select-option>-->
-            <a-select-option value="NoScope" label="NoScope">
-              NoScope
-            </a-select-option>
-            <a-select-option value="JumpKill" label="JumpKill">
-              JumpKill
-            </a-select-option>
-            <a-select-option value="ThroughSmoke" label="ThroughSmoke">
-              ThroughSmoke
-            </a-select-option>
-            <a-select-option value="Penetrate" label="Penetrate">
-              Penetrate
-            </a-select-option>
-            <a-select-option value="HeadShot" label="HeadShot">
-              HeadShot
-            </a-select-option>
-            <a-select-option value="Suicide" label="Suicide">
-              Suicide
-            </a-select-option>
-            <a-select-option value="Kill360" label="Kill360">
-              Kill360
+            <a-select-option v-for="(item, id) in suffixIcons" :key="id" :label="item" >
+              <img :src="require(`../assets/svg/${item}.svg`)" :label=item width="44" height="32" style="background: rgba(0,0,0,0.1);border-radius: 4px">
+              {{item}}
             </a-select-option>
           </a-select>
         </a-form-model-item>
-        <img src="../assets/svg/ak47.svg" width="44" height="32">
+<!--        <img src="../assets/svg/ak47.svg" width="44" height="32">-->
         <a-button @click="generate">生成</a-button>
         <a-button @click="test">测试</a-button>
 <!--        <a-form-model-item label="1">-->
@@ -89,8 +71,14 @@
       </a-form-model>
     </div>
     <div id="OutputDiv">
-      <div id="DNArea" style="margin-top: 40px;" v-for="(item,i) in dNotices" :key="i">
-        <div class="deathNotice">{{i}} {{item.test}}</div><br>
+      <div id="DNArea" style="margin-top: 40px;padding-top: 40px;" v-for="(item,i) in dNotices" :key="i">
+<!--        <div class="deathNotice">{{i}} {{item.test}}</div><br>-->
+        <div class="deathNotice">
+          {{dnItem.attacker}}
+
+          {{dnItem.victim}}
+        </div>
+        <br>
       </div>
     </div>
   </div>
@@ -209,12 +197,18 @@ export default {
         'zone_repulsor'
       ],
       prefixIcons: [
-        'Revenge',
-        'Domination',
-        'AttackerBlind'
+        'revenge',
+        'domination',
+        'blindkill'
       ],
       suffixIcons: [
-        ''
+        'noscope',
+        'jumpkill',
+        'throughsmoke',
+        'penetrate',
+        'headshot',
+        'suicide',
+        'kill360'
       ],
       labelCol: { span: 4 },
       wrapperCol: { span: 18 },
@@ -222,8 +216,8 @@ export default {
         attacker: '',
         victim: '',
         weapon: '',
-        prefixIcon: [''],
-        suffixIcon: [''],
+        prefixIcon: [],
+        suffixIcon: [],
         redBorder: ''
       },
       dNotices: [
@@ -272,6 +266,8 @@ export default {
       // console.log(document.getElementById('container').clientWidth)
       // window.devicePixelRatio 窗口缩放比例
       console.log(window.devicePixelRatio)
+      console.log(this.dnItem.suffixIcon)
+      console.log(this.dnItem.prefixIcon)
       // const size = window.devicePixelRatio
       // document.body.style.cssText = document.body.style.cssText + '; -webkit-transform: scale(' + 1 / size + ');-webkit-transform-origin: 0 0;'
     }
@@ -284,8 +280,8 @@ export default {
 #OutputDiv{
   height: 1080px;
   width: 1920px;
-  /*background: pink;*/
-   background: rgba(0,0,0,0);
+  background: pink;
+  /*background: rgba(0,0,0,0);*/
 }
 
 .deathNotice{
@@ -293,6 +289,9 @@ export default {
   background: rgba(0,0,0,0);
   width: max-content;
   float: right;
-  margin: 10px 10px 0 0;
+  margin: 0 20px 20px 0;
+  padding: 6px;
+  background: rgba(0,0,0,0.5);
+  border-radius: 4px;
 }
 </style>
