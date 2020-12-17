@@ -71,14 +71,12 @@
       </a-form-model>
     </div>
     <div id="OutputDiv">
-      <div id="DNArea" style="margin-top: 40px;padding-top: 40px;" v-for="(item,i) in dNotices" :key="i">
+      <div id="DNArea" v-for="(item,i) in dNotices" :key="i">
 <!--        <div class="deathNotice">{{i}} {{item.test}}</div><br>-->
         <div class="deathNotice">
           {{dnItem.attacker}}
-
           {{dnItem.victim}}
         </div>
-        <br>
       </div>
     </div>
   </div>
@@ -282,16 +280,25 @@ export default {
   width: 1920px;
   background: pink;
   /*background: rgba(0,0,0,0);*/
+  margin: 40px 0 0 0;
+  padding: 120px 20px 0 0; /*离顶边的距离*/
+  /*padding-top: 100px;*/
+}
+
+#DNArea{
+  /*margin-top: 30px;*/
+  /*background: rgba(0,0,0,0);*/
+  background: azure;
+  width: max-content;
+  float: right;
+  margin-top: 100px;
+  padding: 6px;
+  /*background: rgba(0,0,0,0.5);*/
+  border-radius: 4px;
 }
 
 .deathNotice{
-  /*background: azure;*/
-  background: rgba(0,0,0,0);
-  width: max-content;
-  float: right;
-  margin: 0 20px 20px 0;
-  padding: 6px;
-  background: rgba(0,0,0,0.5);
-  border-radius: 4px;
+
 }
+
 </style>
