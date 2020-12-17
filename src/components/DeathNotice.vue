@@ -71,9 +71,9 @@
       </a-form-model>
     </div>
     <div id="OutputDiv">
-      <div id="DNArea" v-for="(item,i) in dNotices" :key="i">
+      <div id="DNArea" >
 <!--        <div class="deathNotice">{{i}} {{item.test}}</div><br>-->
-        <div class="deathNotice">
+        <div class="deathNotice" v-for="(item,i) in dNotices" :key="i">
           {{dnItem.attacker}}
           {{dnItem.victim}}
         </div>
@@ -230,7 +230,7 @@ export default {
     },
     generate () {
       // TODO: OutputDiv 开始width和height都为auto用作预览，生成的时候设定两个值，生成结束了再恢复
-      const hidpi = 4 // 缩放倍率，不随浏览器缩放改变
+      const hidpi = 2 // 缩放倍率，不随浏览器缩放改变
       const e = document.getElementById('OutputDiv')
       html2canvas(e, {
         allowTaint: true,
@@ -278,27 +278,28 @@ export default {
 #OutputDiv{
   height: 1080px;
   width: 1920px;
-  background: pink;
-  /*background: rgba(0,0,0,0);*/
   margin: 40px 0 0 0;
-  padding: 120px 20px 0 0; /*离顶边的距离*/
-  /*padding-top: 100px;*/
+  /*background: pink; !*debug用的颜色*!*/
+  background: rgba(0,0,0,0);
 }
 
 #DNArea{
-  /*margin-top: 30px;*/
-  /*background: rgba(0,0,0,0);*/
-  background: azure;
   width: max-content;
   float: right;
-  margin-top: 100px;
-  padding: 6px;
-  /*background: rgba(0,0,0,0.5);*/
-  border-radius: 4px;
+  margin-top: 100px;  /*距离顶边的距离*/
+  margin-right: 20px; /*距离右侧边的距离*/
 }
 
 .deathNotice{
-
+  height: max-content;
+  margin-bottom: 20px;  /*击杀条之间的距离*/
+  background: rgba(0,0,0,0.44);  /*击杀条的背景*/
+  /*padding: 6px; !*击杀条内间距*!*/
+  padding: 1px 10px 4px 10px;
+  border-radius: 6px; /*边框圆角*/
+  /*border: red solid 2px;*/
 }
 
+/*color: rgb(234, 190, 84); font-family: Stratum2;*/
+/*color: rgb(111, 156, 230); font-family: Stratum2;*/
 </style>
