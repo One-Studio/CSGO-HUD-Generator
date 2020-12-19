@@ -73,10 +73,10 @@
     <div id="OutputDiv">
       <div id="DNArea" >
 <!--        <div class="deathNotice">{{i}} {{item.test}}</div><br>-->
-        <div class="deathNotice" v-for="(item,i) in dNotices" :key="i" :class="{'DispRedBorder':dnItem.redBorder}">
-          {{dnItem.attacker}}
+        <div class="deathNotice" v-for="(item,i) in dNotices" :key="i" :class="{'DispRedBorder':dnItem.redBorder}" style="font-size: medium">
+          <span style="color: rgb(234, 190, 84);padding-right: 4px">{{dnItem.attacker}}</span>
           <img :src="require(`../assets/svg/${dnItem.weapon}.svg`)" width="42" height="18" style="background: rgba(0,0,0,0)">
-          {{dnItem.victim}}
+          <span style="color: rgb(111, 156, 230);padding-left: 4px">{{dnItem.victim}}</span>
         </div>
       </div>
     </div>
@@ -227,7 +227,7 @@ export default {
   },
   methods: {
     handleChange (value) {
-      console.log(`selected ${value}`)
+      // console.log(`selected ${value}`)
     },
     generate () {
       // TODO: OutputDiv 开始width和height都为auto用作预览，生成的时候设定两个值，生成结束了再恢复
@@ -264,9 +264,9 @@ export default {
     test () {
       // console.log(document.getElementById('container').clientWidth)
       // window.devicePixelRatio 窗口缩放比例
-      console.log(window.devicePixelRatio)
-      console.log(this.dnItem.suffixIcon)
-      console.log(this.dnItem.prefixIcon)
+      // console.log(window.devicePixelRatio)
+      // console.log(this.dnItem.suffixIcon)
+      // console.log(this.dnItem.prefixIcon)
       // const size = window.devicePixelRatio
       // document.body.style.cssText = document.body.style.cssText + '; -webkit-transform: scale(' + 1 / size + ');-webkit-transform-origin: 0 0;'
     }
@@ -292,11 +292,11 @@ export default {
 }
 
 .deathNotice{
-  height: max-content;
+  height: 30px;
   margin-bottom: 20px;  /*击杀条之间的距离*/
   background: rgba(0,0,0,0.44);  /*击杀条的背景*/
   /*padding: 6px; !*击杀条内间距*!*/
-  padding: 4px 10px 4px 10px;
+  padding: 2px 10px 2px 10px;
   border-radius: 6px; /*边框圆角*/
 }
 
