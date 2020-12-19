@@ -10,7 +10,7 @@
         </a-form-model-item>
 
         <a-form-model-item label="武器">
-          <a-select v-model="dnItem.weapon" default-value="" style="" size="large" @change="handleChange">
+          <a-select v-model="dnItem.weapon" default-value="ak47" style="" size="large" @change="handleChange">
               <a-select-option v-for="(item, id) in weapons" :key="id">
                 <img :src="require(`../assets/svg/${item}.svg`)" width="42" height="30" style="background: rgba(0,0,0,0.1);border-radius: 4px">
                 {{item}}
@@ -73,8 +73,9 @@
     <div id="OutputDiv">
       <div id="DNArea" >
 <!--        <div class="deathNotice">{{i}} {{item.test}}</div><br>-->
-        <div class="deathNotice" v-for="(item,i) in dNotices" :key="i">
+        <div class="deathNotice" v-for="(item,i) in dNotices" :key="i" :class="{'DispRedBorder':dnItem.redBorder}">
           {{dnItem.attacker}}
+          <img :src="require(`../assets/svg/${dnItem.weapon}.svg`)" width="42" height="18" style="background: rgba(0,0,0,0)">
           {{dnItem.victim}}
         </div>
       </div>
@@ -211,12 +212,12 @@ export default {
       labelCol: { span: 4 },
       wrapperCol: { span: 18 },
       dnItem: {
-        attacker: '',
-        victim: '',
-        weapon: '',
+        attacker: 'Attacker',
+        victim: 'Victim',
+        weapon: 'ak47',
         prefixIcon: [],
         suffixIcon: [],
-        redBorder: ''
+        redBorder: false
       },
       dNotices: [
         { test: 'A Kill B' },
@@ -295,11 +296,13 @@ export default {
   margin-bottom: 20px;  /*击杀条之间的距离*/
   background: rgba(0,0,0,0.44);  /*击杀条的背景*/
   /*padding: 6px; !*击杀条内间距*!*/
-  padding: 1px 10px 4px 10px;
+  padding: 4px 10px 4px 10px;
   border-radius: 6px; /*边框圆角*/
-  /*border: red solid 2px;*/
 }
 
+.DispRedBorder{
+  border: red solid 2px;
+}
 /*color: rgb(234, 190, 84); font-family: Stratum2;*/
 /*color: rgb(111, 156, 230); font-family: Stratum2;*/
 </style>
