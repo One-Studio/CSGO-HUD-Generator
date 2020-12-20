@@ -74,9 +74,9 @@
       <div id="DNArea" >
 <!--        <div class="deathNotice">{{i}} {{item.test}}</div><br>-->
         <div class="deathNotice" v-for="(item,i) in dNotices" :key="i" :class="{'DispRedBorder':dnItem.redBorder}" style="font-size: medium">
-          <span style="color: rgb(234, 190, 84);padding-right: 4px">{{dnItem.attacker}}</span>
-          <img :src="require(`../assets/svg/${dnItem.weapon}.svg`)" width="42" height="18" style="background: rgba(0,0,0,0)">
-          <span style="color: rgb(111, 156, 230);padding-left: 4px">{{dnItem.victim}}</span>
+          <span style="color: rgb(234, 190, 84);padding-right: 4px;vertical-align: middle;horiz-align: center;text-align: center">{{dnItem.attacker}}</span>
+          <img :src="require(`../assets/svg/${dnItem.weapon}.svg`)" style="background: rgba(0,0,0,0);height: 24px;vertical-align: middle;visibility: visible;">
+          <span style="color: rgb(111, 156, 230);padding-left: 4px;">{{dnItem.victim}}</span>
         </div>
       </div>
     </div>
@@ -280,28 +280,50 @@ export default {
   height: 1080px;
   width: 1920px;
   margin: 40px 0 0 0;
-  /*background: pink; !*debug用的颜色*!*/
-  background: rgba(0,0,0,0);
+  background: pink; /*debug用的颜色*/
+  /*background: rgba(0,0,0,0);*/
+  /**/
+
+  font-family: 'Stratum2';
+  src:url('../assets/font/Stratum2.ttf');
+  font-weight: bold;
 }
 
 #DNArea{
   width: max-content;
   float: right;
-  margin-top: 100px;  /*距离顶边的距离*/
-  margin-right: 20px; /*距离右侧边的距离*/
+  margin-top: 70px;  /*距离顶边的距离*/
+  margin-right: 10px; /*距离右侧边的距离*/
+  /*text-align: center;*/
+  /*line-height: 24px;*/
 }
 
 .deathNotice{
-  height: 30px;
-  margin-bottom: 20px;  /*击杀条之间的距离*/
-  background: rgba(0,0,0,0.44);  /*击杀条的背景*/
-  /*padding: 6px; !*击杀条内间距*!*/
+  /*height: 30px;*/
+  /*background: rgba(0,0,0,0.44);  !*击杀条的背景*!*/
+  /*!*padding: 6px; !*击杀条内间距*!*!*/
+  /*padding: 2px 10px 2px 10px;*/
+  /*border-radius: 6px; !*边框圆角*!*/
+  /*height: 30px;*/
+  margin-bottom: 2px;  /*击杀条之间的距离*/
   padding: 2px 10px 2px 10px;
-  border-radius: 6px; /*边框圆角*/
+  transition-property: opacity;
+  transition-timing-function: ease-out;
+  background-color:rgba(0,0,0,0.44);
+  border-radius: 4px;
+  /*text-align: center;*/
+  /*border: 2px solid #e10000;*/
+  /*border: 2px outset rgba(0,0,0,0.44);*/
 }
 
 .DispRedBorder{
-  border: red solid 2px;
+  /*height: 30px;*/
+  border: 2px solid #e10000;
+  padding: 0px 8px 0px 8px;
+}
+
+span{
+
 }
 /*color: rgb(234, 190, 84); font-family: Stratum2;*/
 /*color: rgb(111, 156, 230); font-family: Stratum2;*/
