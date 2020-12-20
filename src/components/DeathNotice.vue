@@ -11,7 +11,7 @@
 
         <a-form-model-item label="武器">
           <a-select v-model="dnItem.weapon" default-value="ak47" style="" size="large" @change="handleChange">
-              <a-select-option v-for="(item, id) in weapons" :key="id">
+              <a-select-option v-for="(item) in weapons" :key="item">
                 <img :src="require(`../assets/svg/${item}.svg`)" width="42" height="30" style="background: rgba(0,0,0,0.1);border-radius: 4px">
                 {{item}}
               </a-select-option>
@@ -74,9 +74,9 @@
       <div id="DNArea" >
 <!--        <div class="deathNotice">{{i}} {{item.test}}</div><br>-->
         <div class="deathNotice" v-for="(item,i) in dNotices" :key="i" :class="{'DispRedBorder':dnItem.redBorder}" style="font-size: medium">
-          <span style="color: rgb(234, 190, 84);padding-right: 4px;vertical-align: middle;horiz-align: center;text-align: center">{{dnItem.attacker}}</span>
-          <img :src="require(`../assets/svg/${dnItem.weapon}.svg`)" style="background: rgba(0,0,0,0);height: 24px;vertical-align: middle;visibility: visible;">
-          <span style="color: rgb(111, 156, 230);padding-left: 4px;">{{dnItem.victim}}</span>
+          <span style="color: rgb(234, 190, 84);padding-right: 4px;font-family: 'Stratum2';font-size: 16px;">{{dnItem.attacker}}</span>
+          <img :src="require(`../assets/svg/${dnItem.weapon}.svg`)" style="background: rgba(0,0,0,0);height: 22px;vertical-align: middle;visibility: visible;">
+          <span style="color: rgb(111, 156, 230);padding-left: 4px;font-family: 'Stratum2';font-size: 16px;">{{dnItem.victim}}</span>
         </div>
       </div>
     </div>
@@ -85,8 +85,6 @@
 
 <script>
 import html2canvas from 'html2canvas'
-// import '../assets/svg'
-
 export default {
   name: 'DeathNotice',
   data () {
@@ -227,7 +225,8 @@ export default {
   },
   methods: {
     handleChange (value) {
-      // console.log(`selected ${value}`)
+    //   console.log(value)
+    //   this.dnItem.weapon = value
     },
     generate () {
       // TODO: OutputDiv 开始width和height都为auto用作预览，生成的时候设定两个值，生成结束了再恢复
@@ -255,10 +254,6 @@ export default {
           document.body.appendChild(link)
           link.click()
         }
-
-        // // [重要]默认转化的格式为png,也可设置为其他格式
-        // var img = Canvas2Image.convertToJPEG(canvas, canvas.width, canvas.height)
-        // document.body.appendChild(img)
       })
     },
     test () {
@@ -276,23 +271,30 @@ export default {
 </script>
 
 <style scoped>
+
+@font-face {
+  font-family: 'Stratum2';
+  src: url('../assets/font/Stratum2.ttf');
+  font-style: normal;
+  font-weight: bold;
+}
+
 #OutputDiv{
   height: 1080px;
   width: 1920px;
   margin: 40px 0 0 0;
-  background: pink; /*debug用的颜色*/
-  /*background: rgba(0,0,0,0);*/
+  /* background: pink; debug用的颜色 */
+  background: rgba(0,0,0,0);
   /**/
-
-  font-family: 'Stratum2';
-  src:url('../assets/font/Stratum2.ttf');
   font-weight: bold;
+  font-family: 'Stratum2';
+  /* src: url("../assets/font/Stratum2.ttf") format('truetype'); */
 }
 
 #DNArea{
   width: max-content;
   float: right;
-  margin-top: 70px;  /*距离顶边的距离*/
+  margin-top: 75px;  /*距离顶边的距离*/
   margin-right: 10px; /*距离右侧边的距离*/
   /*text-align: center;*/
   /*line-height: 24px;*/
@@ -306,12 +308,12 @@ export default {
   /*border-radius: 6px; !*边框圆角*!*/
   /*height: 30px;*/
   margin-bottom: 2px;  /*击杀条之间的距离*/
-  padding: 2px 10px 2px 10px;
+  padding: 4px 10px 2px 10px;
   transition-property: opacity;
   transition-timing-function: ease-out;
   background-color:rgba(0,0,0,0.44);
   border-radius: 4px;
-  /*text-align: center;*/
+  text-align: center;
   /*border: 2px solid #e10000;*/
   /*border: 2px outset rgba(0,0,0,0.44);*/
 }
@@ -319,7 +321,7 @@ export default {
 .DispRedBorder{
   /*height: 30px;*/
   border: 2px solid #e10000;
-  padding: 0px 8px 0px 8px;
+  padding: 2px 8px 0px 8px;
 }
 
 span{
