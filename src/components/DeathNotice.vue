@@ -92,26 +92,26 @@
       </div>
     </div>
 
-<!--    <div id="OutputDiv">-->
-<!--      <div id="DNArea">-->
-<!--        <div class="deathNotice" v-for="(item,i) in dNotices" :key="i" :class="{'DispRedBorder':item.redBorder}">-->
-<!--          &lt;!&ndash; 击杀者         &ndash;&gt;-->
-<!--          <span class='attacker'>{{item.attacker}}</span>-->
-<!--          &lt;!&ndash; 前缀图标         &ndash;&gt;-->
-<!--          <span v-for="(preIcon, j) in item.prefixIcon" :key='j'>-->
-<!--            <img class="prefix" :src="require(`../assets/svg/${preIcon}.svg`)"/>-->
-<!--          </span>-->
-<!--          &lt;!&ndash; 武器         &ndash;&gt;-->
-<!--          <img class='weapon' :src="require(`../assets/svg/${item.weapon}.svg`)"/>-->
-<!--          &lt;!&ndash; 后缀图标         &ndash;&gt;-->
-<!--          <span v-for="(sufIcon, k) in item.suffixIcon" :key='k'>-->
-<!--            <img class="suffix" :src="require(`../assets/svg/${sufIcon}.svg`)">-->
-<!--          </span>-->
-<!--          &lt;!&ndash; 受害者         &ndash;&gt;-->
-<!--          <span class='victim'>{{item.victim}}</span>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
+    <div id="OutputDiv">
+      <div id="DNArea">
+        <div class="deathNotice" v-for="(item,i) in dNotices" :key="i" :class="{'DispRedBorder':item.redBorder}">
+          <!-- 击杀者         -->
+          <span class='attacker'>{{item.attacker}}</span>
+          <!-- 前缀图标         -->
+          <span v-for="(preIcon, j) in item.prefixIcon" :key='j'>
+            <img class="prefix" :src="require(`../assets/svg/${preIcon}.svg`)"/>
+          </span>
+          <!-- 武器         -->
+          <img class='weapon' :src="require(`../assets/svg/${item.weapon}.svg`)"/>
+          <!-- 后缀图标         -->
+          <span v-for="(sufIcon, k) in item.suffixIcon" :key='k'>
+            <img class="suffix" :src="require(`../assets/svg/${sufIcon}.svg`)">
+          </span>
+          <!-- 受害者         -->
+          <span class='victim'>{{item.victim}}</span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -266,11 +266,17 @@ export default {
     },
     generate () {
       // TODO: OutputDiv 开始width和height都为auto用作预览，生成的时候设定两个值，生成结束了再恢复
+
+      // 滚动条置顶解决生成图片不全的问题
+      window.pageYOffset = 0
+      document.documentElement.scrollTop = 0
+      document.body.scrollTop = 0
+
       const hidpi = 4 // 缩放倍率，不随浏览器缩放改变
       const e = document.getElementById('OutputDiv')
       html2canvas(e, {
-        allowTaint: true,
-        useCORS: true,
+        allowTaint: false,
+        useCORS: false,
         backgroundColor: 'rgba(0,0,0,0)',
         scale: hidpi
       }).then(canvas => {
