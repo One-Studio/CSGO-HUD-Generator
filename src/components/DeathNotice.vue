@@ -1,85 +1,86 @@
 <template>
   <div class="container" id="container">
-    <div style="background: antiquewhite;width: 500px;height: max-content;margin: 30px auto auto auto;border-radius: 3%;padding: 30px">
-      <a-form-model :model="dnItem" :label-col="labelCol" :wrapper-col="wrapperCol">
-        <a-form-model-item label="击杀者">
-          <a-input v-model="dnItem.attacker" size="large"/>
-        </a-form-model-item>
-        <a-form-model-item label="被杀者">
-          <a-input v-model="dnItem.victim" size="large"/>
-        </a-form-model-item>
+    <div class='dn-item-container'>
+      <div class="dn-item" v-for="(item,i) in dNotices" :key="i">
+        第{{ i+1 }}项<br><br>
+        <a-form-model :model="item" :label-col={span:4} :wrapper-col={span:18}>
+            <a-form-model-item label="击杀者">
+              <a-input v-model="item.attacker" size="large"/>
+            </a-form-model-item>
+            <a-form-model-item label="被杀者">
+              <a-input v-model="item.victim" size="large"/>
+            </a-form-model-item>
 
-        <a-form-model-item label="武器">
-          <a-select v-model="dnItem.weapon" default-value="ak47" style="" size="large" @change="handleChange">
-              <a-select-option v-for="(item) in weapons" :key="item">
-                <img :src="require(`../assets/svg/${item}.svg`)" width="42" height="30" style="background: rgba(0,0,0,0.1);border-radius: 4px">
-                {{item}}
-              </a-select-option>
-          </a-select>
-        </a-form-model-item>
-
-        <a-form-model-item label="红色边框">
-          <a-switch v-model="dnItem.redBorder"/>
-        </a-form-model-item>
-
-        <a-form-model-item label="前置图标">
-          <a-select
-            v-model="dnItem.prefixIcon"
-            default-value="1"
-            mode="multiple"
-            style="width: 100%"
-            size="large"
-            placeholder="select"
-            option-label-prop="label"
-          >
-            <a-select-option v-for="(item, id) in prefixIcons" :key="id" :label="item">
-              <img :src="require(`../assets/svg/${item}.svg`)" width="44" height="32" style="background: rgba(0,0,0,0.1);border-radius: 4px">
-              {{item}}
-            </a-select-option>
-          </a-select>
-        </a-form-model-item>
-        <a-form-model-item label="后置图标">
-          <a-select
-            v-model="dnItem.suffixIcon"
-            mode="multiple"
-            style="width: 100%"
-            size="large"
-            placeholder="select"
-            option-label-prop="label"
-          >
-            <a-select-option v-for="(item, id) in suffixIcons" :key="id" :label="item" >
-              <img :src="require(`../assets/svg/${item}.svg`)" :label=item width="44" height="32" style="background: rgba(0,0,0,0.1);border-radius: 4px">
-              {{item}}
-            </a-select-option>
-          </a-select>
-        </a-form-model-item>
-<!--        <img src="../assets/svg/ak47.svg" width="44" height="32">-->
+            <a-form-model-item label="武器">
+              <a-select v-model="item.weapon" default-value="ak47" style="" size="large" @change="handleChange">
+                <a-select-option v-for="(item) in weapons" :key="item">
+                  <img :src="require(`../assets/svg/${item}.svg`)" width="42" height="30" style="background: rgba(0,0,0,0.1);border-radius: 4px">
+                  {{item}}
+                </a-select-option>
+              </a-select>
+            </a-form-model-item>
+            <a-form-model-item label="红色边框">
+              <a-switch v-model="item.redBorder"/>
+            </a-form-model-item>
+            <a-form-model-item label="前置图标">
+              <a-select
+                v-model="item.prefixIcon"
+                default-value="1"
+                mode="multiple"
+                style="width: 100%"
+                size="large"
+                placeholder="select"
+                option-label-prop="label"
+              >
+                <a-select-option v-for="(item, id) in prefixIcons" :key="id" :label="item">
+                  <img :src="require(`../assets/svg/${item}.svg`)" width="44" height="32" style="background: rgba(0,0,0,0.1);border-radius: 4px">
+                  {{item}}
+                </a-select-option>
+              </a-select>
+            </a-form-model-item>
+            <a-form-model-item label="后置图标">
+              <a-select
+                v-model="item.suffixIcon"
+                mode="multiple"
+                style="width: 100%"
+                size="large"
+                placeholder="select"
+                option-label-prop="label"
+              >
+                <a-select-option v-for="(item, id) in suffixIcons" :key="id" :label="item" >
+                  <img :src="require(`../assets/svg/${item}.svg`)" :label=item width="44" height="32" style="background: rgba(0,0,0,0.1);border-radius: 4px">
+                  {{item}}
+                </a-select-option>
+              </a-select>
+            </a-form-model-item>
+          </a-form-model>
+      </div>
+    </div>
+    <div class='sidebar' id='sidebar'>
+      <div class='preference-container'>
+        偏好设置<br><br>
         <a-button @click="generate">生成</a-button>
         <a-button @click="test">测试</a-button>
-<!--        <a-form-model-item label="1">-->
-<!--          <a-input v-model="dnItem.x"/>-->
-<!--        </a-form-model-item>-->
-<!--        <a-form-model-item label="1">-->
-<!--          <a-input v-model="dnItem.x"/>-->
-<!--        </a-form-model-item>-->
-<!--        <a-form-model-item label="1">-->
-<!--          <a-input v-model="dnItem.x"/>-->
-<!--        </a-form-model-item>-->
-<!--        <a-form-model-item label="1">-->
-<!--          <a-input v-model="dnItem.x"/>-->
-<!--        </a-form-model-item>-->
-      </a-form-model>
-    </div>
-    <div id="OutputDiv">
-      <div id="DNArea" >
-<!--        <div class="deathNotice">{{i}} {{item.test}}</div><br>-->
-        <div class="deathNotice" v-for="(item,i) in dNotices" :key="i" :class="{'DispRedBorder':dnItem.redBorder}" style="font-size: medium">
-          <span style="color: rgb(234, 190, 84);padding-right: 4px;font-family: 'Stratum2';font-size: 16px;">{{dnItem.attacker}}</span>
-          <img :src="require(`../assets/svg/${dnItem.weapon}.svg`)" style="background: rgba(0,0,0,0);height: 22px;vertical-align: middle;visibility: visible;">
-          <span style="color: rgb(111, 156, 230);padding-left: 4px;font-family: 'Stratum2';font-size: 16px;">{{dnItem.victim}}</span>
+      </div>
+      <div class='preview-container'>
+        预览<br><br>
+        <div class="deathNotice" v-for="(item,i) in dNotices" :key="i" :class="{'DispRedBorder':item.redBorder}" style="font-size: medium">
+          <span class='attacker'>{{item.attacker}}</span>
+          <img class='weapon' :src="require(`../assets/svg/${item.weapon}.svg`)">
+          <span class='victim'>{{item.victim}}</span>
         </div>
       </div>
     </div>
+
+<!--    <div id="OutputDiv">-->
+<!--      <div id="DNArea" >-->
+<!--        <div class="deathNotice" v-for="(item,i) in dNotices" :key="i" :class="{'DispRedBorder':item.redBorder}" style="font-size: medium">-->
+<!--          <span style="color: rgb(234, 190, 84);padding-right: 4px;font-family: 'Stratum2';font-size: 16px;">{{dnItem.attacker}}</span>-->
+<!--          <img :src="require(`../assets/svg/${dnItem.weapon}.svg`)" style="background: rgba(0,0,0,0);height: 22px;vertical-align: middle;visibility: visible;">-->
+<!--          <span style="color: rgb(111, 156, 230);padding-left: 4px;font-family: 'Stratum2';font-size: 16px;">{{dnItem.victim}}</span>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
   </div>
 </template>
 
@@ -207,19 +208,23 @@ export default {
         'suicide',
         'kill360'
       ],
-      labelCol: { span: 4 },
-      wrapperCol: { span: 18 },
-      dnItem: {
-        attacker: 'Attacker',
-        victim: 'Victim',
-        weapon: 'ak47',
-        prefixIcon: [],
-        suffixIcon: [],
-        redBorder: false
-      },
       dNotices: [
-        { test: 'A Kill B' },
-        { test: 'dd Kill gg' }
+        {
+          attacker: 'Attacker',
+          victim: 'Victim',
+          weapon: 'ak47',
+          prefixIcon: [],
+          suffixIcon: ['headshot'],
+          redBorder: false
+        },
+        {
+          attacker: '中文字体样式.gg',
+          victim: 'Purp1e',
+          weapon: 'awp',
+          prefixIcon: ['blindkill'],
+          suffixIcon: [],
+          redBorder: true
+        }
       ]
     }
   },
@@ -230,7 +235,7 @@ export default {
     },
     generate () {
       // TODO: OutputDiv 开始width和height都为auto用作预览，生成的时候设定两个值，生成结束了再恢复
-      const hidpi = 2 // 缩放倍率，不随浏览器缩放改变
+      const hidpi = 4 // 缩放倍率，不随浏览器缩放改变
       const e = document.getElementById('OutputDiv')
       html2canvas(e, {
         allowTaint: true,
@@ -279,6 +284,78 @@ export default {
   font-weight: bold;
 }
 
+@media screen and (max-width:960px){
+  /* 当屏幕宽度小于1366px时，适配的CSS代码块*/
+  #container{
+    width: max-content;
+  }
+  .dn-item-container{
+    width: 60vw;
+  }
+  #sidebar{
+    width: 32vw;
+  }
+}
+@media screen and (min-width:961px){
+  /* 当屏幕宽度大于等于1366px时，适配的CSS代码块*/
+  #container{
+    width: 900px;
+  }
+  .dn-item-container{
+    width: 600px;
+  }
+  #sidebar{
+    width: 300px;
+  }
+}
+
+#container{
+  margin: 0 auto;
+}
+
+#sidebar{
+  float: right;
+}
+
+/*击杀信息设置区域的容器*/
+.dn-item-container{
+  float: left;
+  background: white;
+
+  transition: 0.3s;
+}
+
+/*设置单个击杀信息的面板*/
+.dn-item{
+  background: #fefefe;
+  height: max-content;
+  margin: 30px 30px 30px auto;
+  border-radius: 6px;
+  padding: 20px;
+  mso-border-shadow: yes;
+  filter:drop-shadow(4px 4px 10px rgba(0,0,0,0.1));
+}
+
+.preference-container{
+  background: antiquewhite;
+  height: max-content;
+  margin:  30px 30px 30px auto;
+  border-radius: 6px;
+  padding: 20px;
+  mso-border-shadow: yes;
+  filter:drop-shadow(4px 4px 10px rgba(0,0,0,0.1));
+}
+
+.preview-container{
+  background: antiquewhite;
+  height: max-content;
+  margin:  30px 30px 30px auto;
+  border-radius: 6px;
+  padding: 20px;
+  mso-border-shadow: yes;
+  filter:drop-shadow(4px 4px 10px rgba(0,0,0,0.1));
+}
+
 #OutputDiv{
   height: 1080px;
   width: 1920px;
@@ -293,7 +370,7 @@ export default {
 
 #DNArea{
   width: max-content;
-  float: right;
+  right: 0;
   margin-top: 75px;  /*距离顶边的距离*/
   margin-right: 10px; /*距离右侧边的距离*/
   /*text-align: center;*/
@@ -301,14 +378,10 @@ export default {
 }
 
 .deathNotice{
-  /*height: 30px;*/
-  /*background: rgba(0,0,0,0.44);  !*击杀条的背景*!*/
-  /*!*padding: 6px; !*击杀条内间距*!*!*/
-  /*padding: 2px 10px 2px 10px;*/
-  /*border-radius: 6px; !*边框圆角*!*/
-  /*height: 30px;*/
+  width: max-content;
+  /*margin-right: auto;*/
   margin-bottom: 2px;  /*击杀条之间的距离*/
-  padding: 4px 10px 2px 10px;
+  padding: 5px 10px 3px 10px;
   transition-property: opacity;
   transition-timing-function: ease-out;
   background-color:rgba(0,0,0,0.44);
@@ -321,7 +394,19 @@ export default {
 .DispRedBorder{
   /*height: 30px;*/
   border: 2px solid #e10000;
-  padding: 2px 8px 0px 8px;
+  padding: 3px 8px 1px 8px;
+}
+
+.attacker{
+  color: rgb(234, 190, 84);padding-right: 4px;font-family: 'Stratum2';font-size: 16px;
+}
+
+.victim{
+  color: rgb(111, 156, 230);padding-left: 4px;font-family: 'Stratum2';font-size: 16px;
+}
+
+.weapon{
+  background: rgba(0,0,0,0);height: 22px;vertical-align: middle;visibility: visible;
 }
 
 span{
