@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="head-out-box">
-      <a href="">
+      <!-- <a href="">
         <img class="page-logo" src="../assets/One Studio alpha.png" alt="" />
-      </a>
+      </a> -->
       <div class="head-inner-box">
         <ul class="head-ul">
           <li class="page-title">CSGO HUD Generator</li>
