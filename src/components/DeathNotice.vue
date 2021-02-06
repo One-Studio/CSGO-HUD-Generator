@@ -1,17 +1,22 @@
 <template>
   <div class="container" id="container">
-    <div class='dn-item-container'>
-      <div class="dn-item" v-for="(item,i) in dNotices" :key="i">
-        第{{ i+1 }}项<br><br>
-        <a-form-model :model="item" :label-col={span:4} :wrapper-col={span:18}>
+    <div class='main-container'>
+      <div class='dn-item-container'>
+        <div class="dn-item" v-for="(item,i) in dNotices" :key="i">
+          第{{ i+1 }}项<br><br>
+          <a-form-model :label-col={span:4} :wrapper-col={span:18}>
             <a-form-model-item label="击杀者">
               <a-input v-model="item.attacker" size="large"/>
             </a-form-model-item>
             <a-form-model-item label="被杀者">
               <a-input v-model="item.victim" size="large"/>
             </a-form-model-item>
-
             <a-form-model-item label="武器">
+              <!--              <a-radio-group v-model="item.weapon" size="large" @change="handleChange">-->
+              <!--                <a-radio-button v-for="(item) in weapons" :key="item">-->
+              <!--                  <img :src="require(`../assets/svg/${item}.svg`)" height="30" style="background: rgba(0,0,0,0.1);border-radius: 4px">-->
+              <!--                </a-radio-button>-->
+              <!--              </a-radio-group>-->
               <a-select v-model="item.weapon" default-value="ak47" style="" size="large" @change="handleChange">
                 <a-select-option v-for="(item) in weapons" :key="item">
                   <img :src="require(`../assets/svg/${item}.svg`)" width="42" height="30" style="background: rgba(0,0,0,0.1);border-radius: 4px">
@@ -19,9 +24,9 @@
                 </a-select-option>
               </a-select>
             </a-form-model-item>
-            <a-form-model-item label="红色边框">
-              <a-switch v-model="item.redBorder"/>
-            </a-form-model-item>
+            <!--            <a-form-model-item label="红色边框">-->
+            <!--              <a-switch v-model="item.redBorder"/>-->
+            <!--            </a-form-model-item>-->
             <a-form-model-item label="前置图标">
               <a-select
                 v-model="item.prefixIcon"
@@ -32,7 +37,7 @@
                 placeholder="select"
                 option-label-prop="label"
               >
-                <a-select-option v-for="(item, id) in prefixIcons" :key="id" :label="item">
+                <a-select-option v-for="(item, id) in prefixIcons" :key="id" :label="item" :value="item">
                   <img :src="require(`../assets/svg/${item}.svg`)" width="44" height="32" style="background: rgba(0,0,0,0.1);border-radius: 4px">
                   {{item}}
                 </a-select-option>
@@ -47,37 +52,63 @@
                 placeholder="select"
                 option-label-prop="label"
               >
-                <a-select-option v-for="(item, id) in suffixIcons" :key="id" :label="item" >
+                <a-select-option v-for="(item, id) in suffixIcons" :key="id" :label="item" :value="item">
                   <img :src="require(`../assets/svg/${item}.svg`)" :label=item width="44" height="32" style="background: rgba(0,0,0,0.1);border-radius: 4px">
                   {{item}}
                 </a-select-option>
               </a-select>
             </a-form-model-item>
           </a-form-model>
+        </div>
       </div>
-    </div>
-    <div class='sidebar' id='sidebar'>
-      <div class='preference-container'>
-        偏好设置<br><br>
-        <a-button @click="generate">生成</a-button>
-        <a-button @click="test">测试</a-button>
-      </div>
-      <div class='preview-container'>
-        预览<br><br>
-        <div class="deathNotice" v-for="(item,i) in dNotices" :key="i" :class="{'DispRedBorder':item.redBorder}" style="font-size: medium">
-          <span class='attacker'>{{item.attacker}}</span>
-          <img class='weapon' :src="require(`../assets/svg/${item.weapon}.svg`)">
-          <span class='victim'>{{item.victim}}</span>
+      <div class='sidebar' id='sidebar'>
+        <div class='preference-container'>
+          偏好设置<br><br>
+          <a-button @click="add">+</a-button>
+          <a-button @click="minus">-</a-button>
+          <br><br>
+          <a-button @click="generate">生成</a-button>
+          <a-button @click="test">测试</a-button>
+        </div>
+        <div class='preview-container'>
+          预览<br><br>
+          <div class="deathNotice" v-for="(item,i) in dNotices" :key="i" :class="{'DispRedBorder':item.redBorder}">
+            <!-- 击杀者         -->
+            <span class='attacker'>{{item.attacker}}</span>
+            <!-- 前缀图标         -->
+            <span v-for="(preIcon, j) in item.prefixIcon" :key='j'>
+            <img class="prefix" :src="require(`../assets/svg/${preIcon}.svg`)"/>
+          </span>
+            <!-- 武器         -->
+            <img class='weapon' :src="require(`../assets/svg/${item.weapon}.svg`)"/>
+            <!-- 后缀图标         -->
+            <span v-for="(sufIcon, k) in item.suffixIcon" :key='k'>
+            <img class="suffix" :src="require(`../assets/svg/${sufIcon}.svg`)">
+          </span>
+            <!-- 受害者         -->
+            <span class='victim'>{{item.victim}}</span>
+          </div>
         </div>
       </div>
     </div>
 
 <!--    <div id="OutputDiv">-->
-<!--      <div id="DNArea" >-->
-<!--        <div class="deathNotice" v-for="(item,i) in dNotices" :key="i" :class="{'DispRedBorder':item.redBorder}" style="font-size: medium">-->
-<!--          <span style="color: rgb(234, 190, 84);padding-right: 4px;font-family: 'Stratum2';font-size: 16px;">{{dnItem.attacker}}</span>-->
-<!--          <img :src="require(`../assets/svg/${dnItem.weapon}.svg`)" style="background: rgba(0,0,0,0);height: 22px;vertical-align: middle;visibility: visible;">-->
-<!--          <span style="color: rgb(111, 156, 230);padding-left: 4px;font-family: 'Stratum2';font-size: 16px;">{{dnItem.victim}}</span>-->
+<!--      <div id="DNArea">-->
+<!--        <div class="deathNotice" v-for="(item,i) in dNotices" :key="i" :class="{'DispRedBorder':item.redBorder}">-->
+<!--          &lt;!&ndash; 击杀者         &ndash;&gt;-->
+<!--          <span class='attacker'>{{item.attacker}}</span>-->
+<!--          &lt;!&ndash; 前缀图标         &ndash;&gt;-->
+<!--          <span v-for="(preIcon, j) in item.prefixIcon" :key='j'>-->
+<!--            <img class="prefix" :src="require(`../assets/svg/${preIcon}.svg`)"/>-->
+<!--          </span>-->
+<!--          &lt;!&ndash; 武器         &ndash;&gt;-->
+<!--          <img class='weapon' :src="require(`../assets/svg/${item.weapon}.svg`)"/>-->
+<!--          &lt;!&ndash; 后缀图标         &ndash;&gt;-->
+<!--          <span v-for="(sufIcon, k) in item.suffixIcon" :key='k'>-->
+<!--            <img class="suffix" :src="require(`../assets/svg/${sufIcon}.svg`)">-->
+<!--          </span>-->
+<!--          &lt;!&ndash; 受害者         &ndash;&gt;-->
+<!--          <span class='victim'>{{item.victim}}</span>-->
 <!--        </div>-->
 <!--      </div>-->
 <!--    </div>-->
@@ -213,7 +244,7 @@ export default {
           attacker: 'Attacker',
           victim: 'Victim',
           weapon: 'ak47',
-          prefixIcon: [],
+          prefixIcon: ['blindkill'],
           suffixIcon: ['headshot'],
           redBorder: false
         },
@@ -221,7 +252,7 @@ export default {
           attacker: '中文字体样式.gg',
           victim: 'Purp1e',
           weapon: 'awp',
-          prefixIcon: ['blindkill'],
+          prefixIcon: ['revenge', 'blindkill'],
           suffixIcon: [],
           redBorder: true
         }
@@ -261,6 +292,23 @@ export default {
         }
       })
     },
+    add () {
+      //
+      this.dNotices.push(
+        {
+          attacker: 'Attacker',
+          victim: 'Victim',
+          weapon: 'ak47',
+          prefixIcon: [],
+          suffixIcon: [],
+          redBorder: false
+        }
+      )
+    },
+    minus () {
+      //
+      this.dNotices.pop()
+    },
     test () {
       // console.log(document.getElementById('container').clientWidth)
       // window.devicePixelRatio 窗口缩放比例
@@ -286,34 +334,34 @@ export default {
 
 @media screen and (max-width:960px){
   /* 当屏幕宽度小于1366px时，适配的CSS代码块*/
-  #container{
+  .main-container{
     width: max-content;
   }
   .dn-item-container{
     width: 60vw;
   }
-  #sidebar{
+  .sidebar{
     width: 32vw;
   }
 }
 @media screen and (min-width:961px){
   /* 当屏幕宽度大于等于1366px时，适配的CSS代码块*/
-  #container{
+  .main-container{
     width: 900px;
   }
   .dn-item-container{
     width: 600px;
   }
-  #sidebar{
+  .sidebar{
     width: 300px;
   }
 }
 
-#container{
+.main-container{
   margin: 0 auto;
 }
 
-#sidebar{
+.sidebar{
   float: right;
 }
 
@@ -337,7 +385,7 @@ export default {
 }
 
 .preference-container{
-  background: antiquewhite;
+  background: #fefefe;
   height: max-content;
   margin:  30px 30px 30px auto;
   border-radius: 6px;
@@ -347,7 +395,7 @@ export default {
 }
 
 .preview-container{
-  background: antiquewhite;
+  background: #fefefe;
   height: max-content;
   margin:  30px 30px 30px auto;
   border-radius: 6px;
@@ -357,11 +405,13 @@ export default {
 }
 
 #OutputDiv{
-  height: 1080px;
   width: 1920px;
-  margin: 40px 0 0 0;
-  /* background: pink; debug用的颜色 */
-  background: rgba(0,0,0,0);
+  height: 1080px;
+  /*position: fixed;*/
+  /*float: end;*/
+  margin: 30px 0 0 0;
+  background: pink;  /*debug用的颜色*/
+  /*background: rgba(0,0,0,0);*/
   /**/
   font-weight: bold;
   font-family: 'Stratum2';
@@ -384,9 +434,10 @@ export default {
   padding: 5px 10px 3px 10px;
   transition-property: opacity;
   transition-timing-function: ease-out;
-  background-color:rgba(0,0,0,0.44);
+  background-color:rgba(0,0,0,0.5);
   border-radius: 4px;
   text-align: center;
+  font-size: medium
   /*border: 2px solid #e10000;*/
   /*border: 2px outset rgba(0,0,0,0.44);*/
 }
@@ -406,7 +457,15 @@ export default {
 }
 
 .weapon{
-  background: rgba(0,0,0,0);height: 22px;vertical-align: middle;visibility: visible;
+  background: rgba(0,0,0,0);height: 23px;vertical-align: middle;visibility: visible;
+}
+
+.prefix{
+  padding-right: 4px;height: 24px;
+}
+
+.suffix{
+  padding-left: 4px;height: 24px;
 }
 
 span{
