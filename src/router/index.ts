@@ -7,8 +7,9 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'Index',
+    // component: Home
+    component: () => import(/* webpackChunkName: "about" */ '../components/Index.vue')
   },
   {
     path: '/about',
@@ -19,12 +20,12 @@ const routes = [
     path: '/death-notice',
     name: 'DeathNotice',
     component: () => import(/* webpackChunkName: "about" */ '../components/DeathNotice.vue')
-  },
-  {
-    path: '/index',
-    name: 'Index',
-    component: () => import(/* webpackChunkName: "about" */ '../components/Index.vue')
   }
+  // {
+  //   path: '/index',
+  //   name: 'Index',
+  //   component: () => import(/* webpackChunkName: "about" */ '../components/Index.vue')
+  // }
 ]
 
 const router = new VueRouter({

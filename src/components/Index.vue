@@ -1,12 +1,28 @@
 <template>
-  <div class="main-warpper">
-    <div class="nav-bar">
-      <a-menu mode="horizontal">
-        <a-menu-item disabled>CSGO HUD Generator</a-menu-item>
-        <a-menu-item @click="Gotodeathnotice">击杀生成</a-menu-item>
-        <a-menu-item>准星生成</a-menu-item>
-        <a-menu-item>其他</a-menu-item>
-      </a-menu>
+  <div>
+    <div class="head-out-box">
+      <a href="">
+        <img class="page-logo" src="../assets/One Studio alpha.png" alt="" />
+      </a>
+      <div class="head-inner-box">
+        <ul class="head-ul">
+          <li class="page-title">CSGO HUD Generator</li>
+          <li>击杀生成</li>
+          <li>准星生成</li>
+          <li>其他</li>
+          <!-- <li class="page-icon">？</li> -->
+        </ul>
+        <div class="head-icon">
+          <a-icon type="question-circle" /><span style="margin-left: 10px"
+            >中文/Eng</span
+          >
+        </div>
+      </div>
+    </div>
+    <div style="padding-top: 70px">
+      <a-card style="width: 1088px" class="index-card" bordered="false">
+        <p>欢迎来到CSGO HUD Generator</p>
+      </a-card>
     </div>
   </div>
 </template>
@@ -33,21 +49,52 @@ export default class Index extends Vue {
 </script>
 
 <style lang="less" scoped>
-.main-warpper {
-  top: 0;
-  height: 60px;
+.head-out-box {
   width: 100%;
-  background-color: #FFFFFF;
-  padding: 0 400px;
+  height: 60px;
+  z-index: 1000;
   line-height: 60px;
-  display: flex;
-  align-items: center; /*定义body的元素垂直居中*/
-  justify-content: center; /*定义body的里的元素水平居中*/
-  box-shadow:0px 0px 10px #adabab;
-  .nav-bar {
-    a-menu {
-      color: #d8d8d8;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #ffffff;
+  box-shadow: darkgrey 0 0 10px 0;
+  .page-logo {
+    float: left;
+    // height: 20%;
+    max-height: 60px;
+  }
+  .head-inner-box {
+    width: 1088px;
+    display: table;
+    content: '';
+    height: 100%;
+    margin: 0 auto;
+    .head-ul {
+      float: left;
+      list-style: none;
+      line-height: 60px;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      .page-title {
+        font-size: 24px;
+      }
+      li {
+        cursor: pointer;
+        display: inline;
+        float: left;
+        margin-right: 30px;
+        font-size: 15px;
+      }
+    }
+    .head-icon {
+      float: right;
     }
   }
+}
+
+.index-card {
+  margin: 0 auto;
 }
 </style>
