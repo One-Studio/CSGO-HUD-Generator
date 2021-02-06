@@ -9,7 +9,7 @@
           <li class="page-title">CSGO HUD Generator</li>
           <li>击杀生成</li>
           <li>准星生成</li>
-          <li>其他</li>
+          <li @click="otherClickFun">其他</li>
           <!-- <li class="page-icon">？</li> -->
         </ul>
         <div class="head-icon">
@@ -20,9 +20,10 @@
       </div>
     </div>
     <div style="padding-top: 70px">
-      <a-card style="width: 1088px" class="index-card" bordered="false">
+      <a-card style="width: 1088px" class="index-card" :bordered=false >
         <p>欢迎来到CSGO HUD Generator</p>
       </a-card>
+      <!-- <Other v-if="isShowOtherPage"></Other> -->
     </div>
   </div>
 </template>
@@ -30,20 +31,29 @@
 <script lang="ts">
 // components
 import DeathNotice from '@/components/DeathNotice.vue'
+import Other from '@/views/other/Other.vue'
 import { Component, Vue } from 'vue-property-decorator'
 @Component({
   name: 'Index',
   components: {
-    DeathNotice
+    DeathNotice,
+    Other
   }
 })
 export default class Index extends Vue {
+  isShowOtherPage = false
+
   created () {
     // todo
   }
 
   Gotodeathnotice () {
     this.$router.push('/death-notice')
+  }
+
+  otherClickFun () {
+    // todo
+    this.isShowOtherPage = true
   }
 }
 </script>
