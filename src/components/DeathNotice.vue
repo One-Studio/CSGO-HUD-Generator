@@ -266,6 +266,7 @@ export default {
     //   this.dnItem.weapon = value
     },
     generate () {
+      // TODO: debug确保正确获取元素
       this.generating = true
       let e = document.getElementById('OutputDiv')
       if (e == null) {
@@ -458,10 +459,9 @@ export default {
   /*font-weight: bold;*/
   font-weight: normal;
   width: max-content;
-  horiz-align: right;
-  right: 0;
+  align-self: end;
   margin: 2px;/*击杀条之间的距离*/
-  padding: 5px 10px 4px 10px;
+  padding: 4px 10px 4px 10px;
   transition-property: opacity;
   transition-timing-function: ease-out;
   background-color:rgba(0,0,0,0.65);
@@ -475,7 +475,7 @@ export default {
 .DispRedBorder{
   /*height: 30px;*/
   border: 2px solid #e10000;
-  padding: 3px 8px 2px 8px;
+  padding: 2px 8px 2px 8px;
 }
 
 .attacker{
