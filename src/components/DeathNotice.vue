@@ -92,7 +92,7 @@
       </div>
     </div>
 
-    <div id="OutputDiv">
+    <div id="OutputDiv" v-show='generating'>
       <div id="DNArea">
         <div class="deathNotice" v-for="(item,i) in dNotices" :key="i" :class="{'DispRedBorder':item.redBorder}">
           <!-- 击杀者         -->
@@ -256,7 +256,8 @@ export default {
           suffixIcon: [],
           redBorder: true
         }
-      ]
+      ],
+      generating: false
     }
   },
   methods: {
@@ -265,15 +266,23 @@ export default {
     //   this.dnItem.weapon = value
     },
     generate () {
+      this.generating = true
+      let e = document.getElementById('OutputDiv')
+      if (e == null) {
+        console.log('WTF is That')
+        setTimeout(e = document.getElementById('OutputDiv'), 2000)
+      }
       // TODO: OutputDiv 开始width和height都为auto用作预览，生成的时候设定两个值，生成结束了再恢复
-
+      setTimeout(this.h2cGen(e), 5000)
+    },
+    h2cGen (e) {
       // 滚动条置顶解决生成图片不全的问题
       window.pageYOffset = 0
       document.documentElement.scrollTop = 0
+      document.documentElement.scrollLeft = 0
       document.body.scrollTop = 0
 
       const hidpi = 4 // 缩放倍率，不随浏览器缩放改变
-      const e = document.getElementById('OutputDiv')
       html2canvas(e, {
         allowTaint: false,
         useCORS: false,
@@ -295,6 +304,8 @@ export default {
           link.style.display = 'none'
           document.body.appendChild(link)
           link.click()
+
+          this.generating = false
         }
       })
     },
@@ -316,6 +327,7 @@ export default {
       this.dNotices.pop()
     },
     test () {
+      this.generating = !this.generating
       // console.log(document.getElementById('container').clientWidth)
       // window.devicePixelRatio 窗口缩放比例
       // console.log(window.devicePixelRatio)
@@ -339,7 +351,7 @@ export default {
 }
 
 @media screen and (max-width:960px){
-  /* 当屏幕宽度小于1366px时，适配的CSS代码块*/
+  /* 当屏幕宽度小于960px时，适配的CSS代码块*/
   .main-container{
     width: max-content;
   }
@@ -351,7 +363,7 @@ export default {
   }
 }
 @media screen and (min-width:961px){
-  /* 当屏幕宽度大于等于1366px时，适配的CSS代码块*/
+  /* 当屏幕宽度大于等于961px时，适配的CSS代码块*/
   .main-container{
     width: 900px;
   }
@@ -365,6 +377,7 @@ export default {
 
 .main-container{
   margin: 0 auto;
+  display: block;
 }
 
 .sidebar{
@@ -374,6 +387,7 @@ export default {
 /*击杀信息设置区域的容器*/
 .dn-item-container{
   float: left;
+  /*display: block;*/
   background: white;
 
   transition: 0.3s;
@@ -411,39 +425,49 @@ export default {
 }
 
 #OutputDiv{
+  clear: both;
   width: 1920px;
   height: 1080px;
   /*position: fixed;*/
   /*float: end;*/
-  margin: 30px 0 0 0;
+  margin: 30px auto;
   background: pink;  /*debug用的颜色*/
   /*background: rgba(0,0,0,0);*/
   /**/
-  font-weight: bold;
-  font-family: 'Stratum2';
+  /*font-weight: bold;*/
+  /*font-family: 'Stratum2';*/
   /* src: url("../assets/font/Stratum2.ttf") format('truetype'); */
 }
 
 #DNArea{
   width: max-content;
-  right: 0;
-  margin-top: 75px;  /*距离顶边的距离*/
+  float: right;
+  /*display: flex;*/
+ /*justify-content: end;*/
+  /*float: right;*/
+  /*horiz-align: right;*/
+  margin-top: 72px;  /*距离顶边的距离*/
   margin-right: 10px; /*距离右侧边的距离*/
   /*text-align: center;*/
   /*line-height: 24px;*/
 }
 
 .deathNotice{
+  font-family: 'Stratum2', 'Arial Unicode MS';
+  font-size: 18px;
+  /*font-weight: bold;*/
+  font-weight: normal;
   width: max-content;
-  /*margin-right: auto;*/
-  margin-bottom: 2px;  /*击杀条之间的距离*/
-  padding: 6px 10px 3px 10px;
+  horiz-align: right;
+  right: 0;
+  margin: 2px;/*击杀条之间的距离*/
+  padding: 5px 10px 4px 10px;
   transition-property: opacity;
   transition-timing-function: ease-out;
-  background-color:rgba(0,0,0,0.5);
+  background-color:rgba(0,0,0,0.65);
   border-radius: 4px;
   text-align: center;
-  font-size: medium
+  /*box-shadow: inset #e10000e6 0px 0px 1px;*/
   /*border: 2px solid #e10000;*/
   /*border: 2px outset rgba(0,0,0,0.44);*/
 }
@@ -451,15 +475,15 @@ export default {
 .DispRedBorder{
   /*height: 30px;*/
   border: 2px solid #e10000;
-  padding: 3px 8px 1px 8px;
+  padding: 3px 8px 2px 8px;
 }
 
 .attacker{
-  color: rgb(234, 190, 84);padding-right: 4px;font-family: 'Stratum2';font-size: 16px;
+  color: rgb(234, 190, 84);padding-right: 4px;font-size: 16px;
 }
 
 .victim{
-  color: rgb(111, 156, 230);padding-left: 4px;font-family: 'Stratum2';font-size: 16px;
+  color: rgb(111, 156, 230);padding-left: 4px;font-size: 16px;
 }
 
 .weapon{
@@ -467,11 +491,11 @@ export default {
 }
 
 .prefix{
-  padding-right: 4px;height: 24px;
+  padding-right: 2px;height: 24px;
 }
 
 .suffix{
-  padding-left: 4px;height: 24px;
+  padding-left: 2px;height: 24px;
 }
 
 span{
