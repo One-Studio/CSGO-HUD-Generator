@@ -495,7 +495,7 @@ export default {
   width: max-content;
   /*float: right;*/
   right: 0;
-  margin: 2px;/*击杀条之间的距离*/
+  margin: 2px 0 0 auto;/*击杀条之间的距离*/
   padding: 5px 10px 5px 10px;
   transition-property: opacity;
   transition-timing-function: ease-out;
