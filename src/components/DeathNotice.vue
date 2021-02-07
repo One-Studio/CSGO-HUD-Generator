@@ -6,10 +6,12 @@
           <h3>第{{ i+1 }}项</h3>
           <a-form-model :label-col={span:4} :wrapper-col={span:18}>
             <a-form-model-item label="击杀者">
-              <a-input v-model="item.attacker" size="large"/>
+              <a-input v-model="item.attacker" size="large" style='display: inline;width: 83%;margin-right: 2%' />
+              <a-button size='large' style='width: 15%;display: inline;padding-left: 4%' :class='item.attackerCamp' @click='toggleAttackerCamp(item)'>{{item.attackerCamp}}</a-button>
             </a-form-model-item>
             <a-form-model-item label="被杀者">
-              <a-input v-model="item.victim" size="large"/>
+              <a-input v-model="item.victim" size="large" style='display: inline;width: 83%;margin-right: 2%'/>
+              <a-button size='large' style='width: 15%;display: inline;padding-left: 4%' :class='item.victimCamp' @click='toggleVictimCamp(item)'>{{item.victimCamp}}</a-button>
             </a-form-model-item>
             <a-form-model-item label="武器">
               <!--              <a-radio-group v-model="item.weapon" size="large" @change="handleChange">-->
@@ -74,6 +76,9 @@
             <a-form-model-item label='HiDPI'>
               <a-input v-model='hidpi'></a-input>
             </a-form-model-item>
+<!--            <a-form-model-item label='等比放大'>-->
+<!--              <a-switch v-model='scaling'/>-->
+<!--            </a-form-model-item>-->
           </a-form-model>
           <a-space>
             <a-button @click="minus"><a-icon type="minus" /></a-button>
@@ -90,7 +95,7 @@
           <h3>预览</h3>
           <div class="deathNotice" v-for="(item,i) in dNotices" :key="i" :class="{'DispRedBorder':item.redBorder}">
             <!-- 击杀者         -->
-            <span class='attacker'>{{item.attacker}}</span>
+            <span class='attacker' :class='item.attackerCamp'>{{item.attacker}}</span>
             <!-- 前缀图标         -->
             <span v-for="(preIcon, j) in item.prefixIcon" :key='j'>
             <img class="prefix" :src="require(`../assets/svg/${preIcon}.svg`)"/>
@@ -102,7 +107,7 @@
             <img class="suffix" :src="require(`../assets/svg/${sufIcon}.svg`)">
           </span>
             <!-- 受害者         -->
-            <span class='victim'>{{item.victim}}</span>
+            <span class='victim' :class='item.victimCamp'>{{item.victim}}</span>
           </div>
         </div>
       </div>
@@ -112,7 +117,7 @@
       <div id="DNArea">
         <div class="deathNotice" v-for="(item,i) in dNotices" :key="i" :class="{'DispRedBorder':item.redBorder}">
           <!-- 击杀者         -->
-          <span class='attacker'>{{item.attacker}}</span>
+          <span class='attacker' :class='item.attackerCamp'>{{item.attacker}}</span>
           <!-- 前缀图标         -->
           <span v-for="(preIcon, j) in item.prefixIcon" :key='j'>
             <img class="prefix" :src="require(`../assets/svg/${preIcon}.svg`)"/>
@@ -124,7 +129,7 @@
             <img class="suffix" :src="require(`../assets/svg/${sufIcon}.svg`)">
           </span>
           <!-- 受害者         -->
-          <span class='victim'>{{item.victim}}</span>
+          <span class='victim' :class='item.victimCamp'>{{item.victim}}</span>
         </div>
       </div>
     </div>
@@ -258,7 +263,9 @@ export default {
       dNotices: [
         {
           attacker: 'Attacker',
+          attackerCamp: 'T',
           victim: 'Victim',
+          victimCamp: 'CT',
           weapon: 'ak47',
           prefixIcon: ['blindkill'],
           suffixIcon: ['headshot'],
@@ -266,7 +273,9 @@ export default {
         },
         {
           attacker: '中文字体样式.gg',
+          attackerCamp: 'CT',
           victim: 'Purp1e',
+          victimCamp: 'T',
           weapon: 'awp',
           prefixIcon: ['revenge', 'blindkill'],
           suffixIcon: [],
@@ -276,12 +285,27 @@ export default {
       generating: false,
       w: 1920,
       h: 1080,
-      hidpi: 2
+      hidpi: 2,
+      scaling: true
     }
   },
   methods: {
     sleep (delay) {
       for (let t = Date.now(); Date.now() - t <= delay;) ;
+    },
+    toggleAttackerCamp (camp) {
+      if (camp.attackerCamp === 'CT') {
+        camp.attackerCamp = 'T'
+      } else {
+        camp.attackerCamp = 'CT'
+      }
+    },
+    toggleVictimCamp (camp) {
+      if (camp.victimCamp === 'CT') {
+        camp.victimCamp = 'T'
+      } else {
+        camp.victimCamp = 'CT'
+      }
     },
     generate () {
       // 先显示outputDiv，再延迟0.1s生成图片
@@ -343,7 +367,7 @@ export default {
     },
     test () {
       // this.toggleFullScreen()
-      this.generating = !this.generating
+      // this.generating = !this.generating
       // console.log(document.getElementById('container').clientWidth)
       // window.devicePixelRatio 窗口缩放比例
       // console.log(window.devicePixelRatio)
@@ -395,6 +419,10 @@ export default {
   .sidebar{
     width: 32vw;
   }
+  .preview-container{
+    /*margin:  475px 30px 30px auto;*/
+    margin:  410px 30px 30px auto;
+  }
 }
 @media screen and (min-width:961px){
   /* 当屏幕宽度大于等于961px时，适配的CSS代码块*/
@@ -406,6 +434,10 @@ export default {
   }
   .sidebar{
     width: 300px;
+  }
+  .preview-container{
+    /*margin:  475px 30px 30px auto;*/
+    margin:  410px 30px 30px auto;
   }
 }
 
@@ -453,7 +485,6 @@ export default {
   position: fixed;
   background: #fefefe;
   height: max-content;
-  margin:  410px 30px 30px auto;
   border-radius: 6px;
   padding: 20px;
   mso-border-shadow: yes;
@@ -514,11 +545,19 @@ export default {
 }
 
 .attacker{
-  color: rgb(234, 190, 84);padding-right: 4px;font-size: 16px;
+  padding-right: 4px;font-size: 16px;
 }
 
 .victim{
-  color: rgb(111, 156, 230);padding-left: 4px;font-size: 16px;
+  padding-left: 4px;font-size: 16px;
+}
+
+.CT{
+  color: rgb(111, 156, 230);
+}
+
+.T{
+  color: rgb(234, 190, 84);
 }
 
 .weapon{
