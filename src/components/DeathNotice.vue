@@ -3,7 +3,7 @@
     <div class='main-container'>
       <div class='dn-item-container'>
         <div class="dn-item" v-for="(item,i) in dNotices" :key="i">
-          第{{ i+1 }}项<br><br>
+          <h3>第{{ i+1 }}项</h3>
           <a-form-model :label-col={span:4} :wrapper-col={span:18}>
             <a-form-model-item label="击杀者">
               <a-input v-model="item.attacker" size="large"/>
@@ -17,16 +17,13 @@
               <!--                  <img :src="require(`../assets/svg/${item}.svg`)" height="30" style="background: rgba(0,0,0,0.1);border-radius: 4px">-->
               <!--                </a-radio-button>-->
               <!--              </a-radio-group>-->
-              <a-select v-model="item.weapon" default-value="ak47" style="" size="large" @change="handleChange">
+              <a-select v-model="item.weapon" default-value="ak47" style="" size="large">
                 <a-select-option v-for="(item) in weapons" :key="item">
                   <img :src="require(`../assets/svg/${item}.svg`)" width="42" height="30" style="background: rgba(0,0,0,0.1);border-radius: 4px">
                   {{item}}
                 </a-select-option>
               </a-select>
             </a-form-model-item>
-            <!--            <a-form-model-item label="红色边框">-->
-            <!--              <a-switch v-model="item.redBorder"/>-->
-            <!--            </a-form-model-item>-->
             <a-form-model-item label="前置图标">
               <a-select
                 v-model="item.prefixIcon"
@@ -58,20 +55,39 @@
                 </a-select-option>
               </a-select>
             </a-form-model-item>
+            <a-form-model-item label="红色边框">
+              <a-switch v-model="item.redBorder"/>
+            </a-form-model-item>
           </a-form-model>
         </div>
       </div>
       <div class='sidebar' id='sidebar'>
         <div class='preference-container'>
-          偏好设置<br><br>
-          <a-button @click="add">+</a-button>
-          <a-button @click="minus">-</a-button>
+          <h3>偏好设置</h3>
+          <a-form-model :label-col={span:10} :wrapper-col={span:10}>
+            <a-form-model-item label='宽'>
+              <a-input v-model='w'></a-input>
+            </a-form-model-item>
+            <a-form-model-item label='高'>
+              <a-input v-model='h'></a-input>
+            </a-form-model-item>
+            <a-form-model-item label='HiDPI'>
+              <a-input v-model='hidpi'></a-input>
+            </a-form-model-item>
+          </a-form-model>
+          <a-space>
+            <a-button @click="minus"><a-icon type="minus" /></a-button>
+            <a-button @click="add"><a-icon type="plus" /></a-button>
+          </a-space>
           <br><br>
-          <a-button @click="generate">生成</a-button>
-          <a-button @click="test">测试</a-button>
+          <a-space>
+            <a-button @click="generate">生成</a-button>
+            <a-button @click="toggleFullScreen">全屏</a-button>
+            <a-button @click="test">测试</a-button>
+          </a-space>
         </div>
         <div class='preview-container'>
-          预览<br><br>
+          <h3>预览</h3>
           <div class="deathNotice" v-for="(item,i) in dNotices" :key="i" :class="{'DispRedBorder':item.redBorder}">
             <!-- 击杀者         -->
             <span class='attacker'>{{item.attacker}}</span>
@@ -92,7 +108,7 @@
       </div>
     </div>
 
-    <div id="OutputDiv" v-show='generating'>
+    <div id="OutputDiv" v-show='generating' :style="{height:h+'px',width:w+'px'}">
       <div id="DNArea">
         <div class="deathNotice" v-for="(item,i) in dNotices" :key="i" :class="{'DispRedBorder':item.redBorder}">
           <!-- 击杀者         -->
@@ -257,33 +273,31 @@ export default {
           redBorder: true
         }
       ],
-      generating: false
+      generating: false,
+      w: 1920,
+      h: 1080,
+      hidpi: 2
     }
   },
   methods: {
-    handleChange (value) {
-    //   console.log(value)
-    //   this.dnItem.weapon = value
+    sleep (delay) {
+      for (let t = Date.now(); Date.now() - t <= delay;) ;
     },
     generate () {
-      // TODO: debug确保正确获取元素
+      // 先显示outputDiv，再延迟0.1s生成图片
       this.generating = true
-      let e = document.getElementById('OutputDiv')
-      if (e == null) {
-        console.log('WTF is That')
-        setTimeout(e = document.getElementById('OutputDiv'), 2000)
-      }
-      // TODO: OutputDiv 开始width和height都为auto用作预览，生成的时候设定两个值，生成结束了再恢复
-      setTimeout(this.h2cGen(e), 5000)
+      setTimeout(this.h2cGen, 100)
     },
-    h2cGen (e) {
+    h2cGen () {
+      // html2canvas获取元素、生成图片、并跳转下载
+      const e = document.getElementById('OutputDiv')
       // 滚动条置顶解决生成图片不全的问题
       window.pageYOffset = 0
       document.documentElement.scrollTop = 0
       document.documentElement.scrollLeft = 0
       document.body.scrollTop = 0
 
-      const hidpi = 4 // 缩放倍率，不随浏览器缩放改变
+      const hidpi = this.hidpi // 缩放倍率，不随浏览器缩放改变
       html2canvas(e, {
         allowTaint: false,
         useCORS: false,
@@ -328,6 +342,7 @@ export default {
       this.dNotices.pop()
     },
     test () {
+      // this.toggleFullScreen()
       this.generating = !this.generating
       // console.log(document.getElementById('container').clientWidth)
       // window.devicePixelRatio 窗口缩放比例
@@ -336,10 +351,28 @@ export default {
       // console.log(this.dnItem.prefixIcon)
       // const size = window.devicePixelRatio
       // document.body.style.cssText = document.body.style.cssText + '; -webkit-transform: scale(' + 1 / size + ');-webkit-transform-origin: 0 0;'
+    },
+    toggleFullScreen () {
+      if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement) { // current working methods
+        if (document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen()
+        } else if (document.documentElement.mozRequestFullScreen) {
+          document.documentElement.mozRequestFullScreen()
+        } else if (document.documentElement.webkitRequestFullscreen) {
+          document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT)
+        }
+      } else {
+        if (document.cancelFullScreen) {
+          document.cancelFullScreen()
+        } else if (document.mozCancelFullScreen) {
+          document.mozCancelFullScreen()
+        } else if (document.webkitCancelFullScreen) {
+          document.webkitCancelFullScreen()
+        }
+      }
     }
   }
 }
-
 </script>
 
 <style scoped>
@@ -406,6 +439,7 @@ export default {
 }
 
 .preference-container{
+  position: fixed;
   background: #fefefe;
   height: max-content;
   margin:  30px 30px 30px auto;
@@ -416,9 +450,10 @@ export default {
 }
 
 .preview-container{
+  position: fixed;
   background: #fefefe;
   height: max-content;
-  margin:  30px 30px 30px auto;
+  margin:  410px 30px 30px auto;
   border-radius: 6px;
   padding: 20px;
   mso-border-shadow: yes;
@@ -427,13 +462,13 @@ export default {
 
 #OutputDiv{
   clear: both;
-  width: 1920px;
-  height: 1080px;
+  /*width: 1920px;*/
+  /*height: 1080px;*/
   /*position: fixed;*/
   /*float: end;*/
   margin: 30px auto;
-  background: pink;  /*debug用的颜色*/
-  /*background: rgba(0,0,0,0);*/
+  /*background: pink;  !*debug用的颜色*!*/
+  background: rgba(0,0,0,0);
   /**/
   /*font-weight: bold;*/
   /*font-family: 'Stratum2';*/
@@ -456,12 +491,12 @@ export default {
 .deathNotice{
   font-family: 'Stratum2', 'Arial Unicode MS';
   font-size: 18px;
-  /*font-weight: bold;*/
-  font-weight: normal;
+  font-weight: bold;
   width: max-content;
-  align-self: end;
+  /*float: right;*/
+  right: 0;
   margin: 2px;/*击杀条之间的距离*/
-  padding: 4px 10px 4px 10px;
+  padding: 5px 10px 5px 10px;
   transition-property: opacity;
   transition-timing-function: ease-out;
   background-color:rgba(0,0,0,0.65);
@@ -475,7 +510,7 @@ export default {
 .DispRedBorder{
   /*height: 30px;*/
   border: 2px solid #e10000;
-  padding: 2px 8px 2px 8px;
+  padding: 3px 8px 3px 8px;
 }
 
 .attacker{
