@@ -292,9 +292,6 @@ export default {
     }
   },
   methods: {
-    sleep (delay) {
-      for (let t = Date.now(); Date.now() - t <= delay;) ;
-    },
     toggleAttackerCamp (item) {
       if (item.attackerCamp === 'CT') {
         item.attackerCamp = 'T'
