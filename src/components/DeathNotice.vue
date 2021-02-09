@@ -14,17 +14,13 @@
               <a-button size='large' style='width: 15%;display: inline;padding-left: 4%' :class='item.victimCamp' @click='toggleVictimCamp(item)'>{{item.victimCamp}}</a-button>
             </a-form-model-item>
             <a-form-model-item label="武器">
-              <!--              <a-radio-group v-model="item.weapon" size="large" @change="handleChange">-->
-              <!--                <a-radio-button v-for="(item) in weapons" :key="item">-->
-              <!--                  <img :src="require(`../assets/svg/${item}.svg`)" height="30" style="background: rgba(0,0,0,0.1);border-radius: 4px">-->
-              <!--                </a-radio-button>-->
-              <!--              </a-radio-group>-->
-              <a-select v-model="item.weapon" default-value="ak47" style="" size="large">
-                <a-select-option v-for="(item) in weapons" :key="item">
+              <a-select v-model="item.weapon" default-value="ak47" size="large" style='width: 73%;margin-right: 2%'>
+                <a-select-option v-for="(item) in weapons" :key="item" style='display: inline;width: 83%;margin-right: 2%'>
                   <img :src="require(`../assets/svg/${item}.svg`)" width="42" height="30" style="background: rgba(0,0,0,0.1);border-radius: 4px">
                   {{item}}
                 </a-select-option>
               </a-select>
+              <a-button size='large' style='width: 25%;padding-left: 4%;' @click='toggleBorder(item)' :class="{'btnRedBorder':item.redBorder}">边框</a-button>
             </a-form-model-item>
             <a-form-model-item label="前置图标">
               <a-select
@@ -57,9 +53,6 @@
                 </a-select-option>
               </a-select>
             </a-form-model-item>
-            <a-form-model-item label="红色边框">
-              <a-switch v-model="item.redBorder"/>
-            </a-form-model-item>
           </a-form-model>
         </div>
       </div>
@@ -75,6 +68,9 @@
             </a-form-model-item>
             <a-form-model-item label='HiDPI'>
               <a-input v-model='hidpi'></a-input>
+            </a-form-model-item>
+            <a-form-model-item label='文件前缀'>
+              <a-input v-model='prefix'></a-input>
             </a-form-model-item>
 <!--            <a-form-model-item label='等比放大'>-->
 <!--              <a-switch v-model='scaling'/>-->
@@ -286,35 +282,40 @@ export default {
       w: 1920,
       h: 1080,
       hidpi: 2,
-      scaling: true
+      prefix: '击杀_',
+      current: 0
     }
   },
   methods: {
     sleep (delay) {
       for (let t = Date.now(); Date.now() - t <= delay;) ;
     },
-    toggleAttackerCamp (camp) {
-      if (camp.attackerCamp === 'CT') {
-        camp.attackerCamp = 'T'
+    toggleAttackerCamp (item) {
+      if (item.attackerCamp === 'CT') {
+        item.attackerCamp = 'T'
       } else {
-        camp.attackerCamp = 'CT'
+        item.attackerCamp = 'CT'
       }
     },
-    toggleVictimCamp (camp) {
-      if (camp.victimCamp === 'CT') {
-        camp.victimCamp = 'T'
+    toggleVictimCamp (item) {
+      if (item.victimCamp === 'CT') {
+        item.victimCamp = 'T'
       } else {
-        camp.victimCamp = 'CT'
+        item.victimCamp = 'CT'
       }
+    },
+    toggleBorder (item) {
+      item.redBorder = item.redBorder !== true
     },
     generate () {
       // 先显示outputDiv，再延迟0.1s生成图片
       this.generating = true
-      setTimeout(this.h2cGen, 100)
+      setTimeout(this.h2cGen(0), 100)
     },
-    h2cGen () {
+    h2cGen (id) {
       // html2canvas获取元素、生成图片、并跳转下载
       const e = document.getElementById('OutputDiv')
+      e.style.opacity = '0.5'
       // 滚动条置顶解决生成图片不全的问题
       window.pageYOffset = 0
       document.documentElement.scrollTop = 0
@@ -339,7 +340,7 @@ export default {
           context.msImageSmoothingEnabled = false
           context.imageSmoothingEnabled = false
           link.href = canvas.toDataURL()
-          link.setAttribute('download', '击杀.png')
+          link.setAttribute('download', this.prefix + id + '.png')
           link.style.display = 'none'
           document.body.appendChild(link)
           link.click()
@@ -421,7 +422,7 @@ export default {
   }
   .preview-container{
     /*margin:  475px 30px 30px auto;*/
-    margin:  410px 30px 30px auto;
+    margin:  470px 30px 30px auto;
   }
 }
 @media screen and (min-width:961px){
@@ -437,7 +438,7 @@ export default {
   }
   .preview-container{
     /*margin:  475px 30px 30px auto;*/
-    margin:  410px 30px 30px auto;
+    margin:  470px 30px 30px auto;
   }
 }
 
@@ -536,6 +537,10 @@ export default {
   /*box-shadow: inset #e10000e6 0px 0px 1px;*/
   /*border: 2px solid #e10000;*/
   /*border: 2px outset rgba(0,0,0,0.44);*/
+}
+
+.btnRedBorder{
+  border: 1px solid #e10000;
 }
 
 .DispRedBorder{
