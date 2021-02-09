@@ -14,6 +14,11 @@ const routes = [
     path: '/death-notice',
     name: 'DeathNotice',
     component: () => import(/* webpackChunkName: "about" */ '../components/DeathNotice.vue')
+  },
+  {
+    path: '/crosshair',
+    name: 'Crosshair',
+    component: () => import(/* webpackChunkName: "about" */ '../components/Crosshair.vue')
   }
   // {
   //   path: '/index',
