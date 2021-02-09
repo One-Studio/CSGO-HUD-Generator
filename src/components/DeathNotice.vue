@@ -111,7 +111,10 @@
 
     <div id="OutputDiv" v-show='generating' :style="{height:h+'px',width:w+'px'}">
       <div id="DNArea">
-        <div class="deathNotice" v-for="(item,i) in dNotices" :key="i" :class="{'DispRedBorder':item.redBorder}">
+        <div class="deathNotice" v-for="(item,i) in dNotices" :key="i" :class="{
+          'DispRedBorder': item.redBorder,
+          'dn-transparent': item.hide
+        }">
           <!-- 击杀者         -->
           <span class='attacker' :class='item.attackerCamp'>{{item.attacker}}</span>
           <!-- 前缀图标         -->
@@ -265,7 +268,8 @@ export default {
           weapon: 'ak47',
           prefixIcon: ['blindkill'],
           suffixIcon: ['headshot'],
-          redBorder: false
+          redBorder: false,
+          hide: false
         },
         {
           attacker: '中文字体样式.gg',
@@ -275,14 +279,15 @@ export default {
           weapon: 'awp',
           prefixIcon: ['revenge', 'blindkill'],
           suffixIcon: [],
-          redBorder: true
+          redBorder: true,
+          hide: false
         }
       ],
       generating: false,
       w: 1920,
       h: 1080,
       hidpi: 2,
-      prefix: '击杀_',
+      prefix: '击杀-',
       current: 0
     }
   },
@@ -308,14 +313,19 @@ export default {
       item.redBorder = item.redBorder !== true
     },
     generate () {
-      // 先显示outputDiv，再延迟0.1s生成图片
+      // 先显示outputDiv，再延迟50ms生成图片
       this.generating = true
-      setTimeout(this.h2cGen(0), 100)
+      // 设置参数确保第一张图片只有第一个击杀
+      this.current = 0
+      for (let j = 0; j < this.dNotices.length; j++) {
+        this.dNotices[j].hide = j !== 0
+      }
+
+      setTimeout(this.html2canvas, 50)
     },
-    h2cGen (id) {
+    html2canvas () {
       // html2canvas获取元素、生成图片、并跳转下载
       const e = document.getElementById('OutputDiv')
-      e.style.opacity = '0.5'
       // 滚动条置顶解决生成图片不全的问题
       window.pageYOffset = 0
       document.documentElement.scrollTop = 0
@@ -340,25 +350,36 @@ export default {
           context.msImageSmoothingEnabled = false
           context.imageSmoothingEnabled = false
           link.href = canvas.toDataURL()
-          link.setAttribute('download', this.prefix + id + '.png')
+          // !文件名设置
+          link.setAttribute('download', this.prefix + (this.current + 1) + '.png')
           link.style.display = 'none'
           document.body.appendChild(link)
           link.click()
 
-          this.generating = false
+          // !确保一个一个生成
+          if (++this.current < this.dNotices.length) {
+            for (let j = 0; j < this.dNotices.length; j++) {
+              this.dNotices[j].hide = j !== this.current
+            }
+            setTimeout(this.html2canvas, 50)
+          } else {
+            this.generating = false
+          }
         }
       })
     },
     add () {
-      //
       this.dNotices.push(
         {
           attacker: 'Attacker',
+          attackerCamp: 'T',
           victim: 'Victim',
+          victimCamp: 'CT',
           weapon: 'ak47',
           prefixIcon: [],
           suffixIcon: [],
-          redBorder: false
+          redBorder: false,
+          hide: false
         }
       )
     },
@@ -368,7 +389,7 @@ export default {
     },
     test () {
       // this.toggleFullScreen()
-      // this.generating = !this.generating
+      this.generating = !this.generating
       // console.log(document.getElementById('container').clientWidth)
       // window.devicePixelRatio 窗口缩放比例
       // console.log(window.devicePixelRatio)
@@ -539,8 +560,14 @@ export default {
   /*border: 2px outset rgba(0,0,0,0.44);*/
 }
 
+.dn-transparent {
+  background-color: rgba(0, 0, 0, 0);
+  opacity: 0;
+}
+
 .btnRedBorder{
-  border: 1px solid #e10000;
+  border-color: #e10000;
+  /*border: 1px solid #e10000;*/
 }
 
 .DispRedBorder{
