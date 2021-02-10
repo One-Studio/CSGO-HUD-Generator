@@ -133,6 +133,8 @@ export default {
           link.style.display = 'none'
           document.body.appendChild(link)
           link.click()
+
+          this.generating = false
         }
       })
     }
@@ -164,7 +166,7 @@ export default {
   .preference-container{
     float: left;
     width: 30%;
-    margin:  30px 1% auto 20%;
+    margin:  30px 1% 3% 20%;
   }
   .preview-container{
     float: left;

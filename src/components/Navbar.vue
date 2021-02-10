@@ -1,29 +1,20 @@
 <template>
   <div>
     <div class="head-out-box">
-      <!-- <a href="">
-        <img class="page-logo" src="../assets/One Studio alpha.png" alt="" />
-      </a> -->
       <div class="head-inner-box">
         <ul class="head-ul">
-          <li class="page-title">CSGO HUD Generator</li>
-          <li>击杀生成</li>
-          <li>准星生成</li>
+          <li class="page-title" @click="gotoIndex">CSGO HUD Generator</li>
+          <li @click="gotoDeathnotice">击杀生成</li>
+          <li @click="gotoCrosshair">准星生成</li>
           <li @click="otherClickFun">其他</li>
           <!-- <li class="page-icon">？</li> -->
         </ul>
         <div class="head-icon">
           <a-icon type="question-circle" /><span style="margin-left: 10px"
-            >中文/Eng</span
+            >中文/En</span
           >
         </div>
       </div>
-    </div>
-    <div style="padding-top: 70px">
-      <a-card style="width: 1088px" class="index-card" :bordered=false >
-        <p>欢迎来到CSGO HUD Generator</p>
-      </a-card>
-      <!-- <Other v-if="isShowOtherPage"></Other> -->
     </div>
   </div>
 </template>
@@ -31,13 +22,13 @@
 <script lang="ts">
 // components
 import DeathNotice from '@/components/DeathNotice.vue'
-import Other from '@/views/other/Other.vue'
+import Crosshair from '@/components/Crosshair.vue'
 import { Component, Vue } from 'vue-property-decorator'
 @Component({
   name: 'Index',
   components: {
     DeathNotice,
-    Other
+    Crosshair
   }
 })
 export default class Index extends Vue {
@@ -47,8 +38,16 @@ export default class Index extends Vue {
     // todo
   }
 
-  Gotodeathnotice () {
+  gotoIndex () {
+    this.$router.push('/')
+  }
+
+  gotoDeathnotice () {
     this.$router.push('/death-notice')
+  }
+
+  gotoCrosshair () {
+    this.$router.push('/crosshair')
   }
 
   otherClickFun () {

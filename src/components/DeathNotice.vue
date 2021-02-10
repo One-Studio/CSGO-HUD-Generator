@@ -60,22 +60,23 @@
         <div class='preference-container'>
           <h3>偏好设置</h3>
           <a-form-model :label-col={span:10} :wrapper-col={span:10}>
-            <a-form-model-item label='宽'>
+            <a-form-model-item v-if="!fold" label='宽' style='margin-bottom: 4px'>
               <a-input v-model='w'></a-input>
             </a-form-model-item>
-            <a-form-model-item label='高'>
+            <a-form-model-item v-if="!fold" label='高' style='margin-bottom: 4px'>
               <a-input v-model='h'></a-input>
             </a-form-model-item>
-            <a-form-model-item label='HiDPI'>
+            <a-form-model-item v-if="!fold" label='HiDPI' style='margin-bottom: 4px'>
               <a-input v-model='hidpi'></a-input>
             </a-form-model-item>
-            <a-form-model-item label='文件前缀'>
+            <a-form-model-item v-if="!fold" label='文件前缀' style='margin-bottom: 4px'>
               <a-input v-model='prefix'></a-input>
             </a-form-model-item>
 <!--            <a-form-model-item label='等比放大'>-->
 <!--              <a-switch v-model='scaling'/>-->
 <!--            </a-form-model-item>-->
           </a-form-model>
+          <br>
           <a-space>
             <a-button @click="minus"><a-icon type="minus" /></a-button>
             <a-button @click="add"><a-icon type="plus" /></a-button>
@@ -84,10 +85,11 @@
           <a-space>
             <a-button @click="generate">生成</a-button>
             <a-button @click="toggleFullScreen">全屏</a-button>
-            <a-button @click="test">测试</a-button>
+            <a-button @click="toggleFold">折叠</a-button>
+<!--            <a-button @click="test">测试</a-button>-->
           </a-space>
         </div>
-        <div class='preview-container'>
+        <div class='preview-container' :class="{'preview-fold': fold}">
           <h3>预览</h3>
           <div class="deathNotice" v-for="(item,i) in dNotices" :key="i" :class="{'DispRedBorder':item.redBorder}">
             <!-- 击杀者         -->
@@ -108,7 +110,6 @@
         </div>
       </div>
     </div>
-
     <div id="OutputDiv" v-show='generating' :style="{height:h+'px',width:w+'px'}">
       <div id="DNArea">
         <div class="deathNotice" v-for="(item,i) in dNotices" :key="i" :class="{
@@ -288,7 +289,8 @@ export default {
       h: 1080,
       hidpi: 2,
       prefix: '击杀-',
-      current: 0
+      current: 0,
+      fold: false
     }
   },
   methods: {
@@ -308,6 +310,9 @@ export default {
     },
     toggleBorder (item) {
       item.redBorder = item.redBorder !== true
+    },
+    toggleFold () {
+      this.fold = !this.fold
     },
     generate () {
       // 先显示outputDiv，再延迟50ms生成图片
@@ -440,7 +445,7 @@ export default {
   }
   .preview-container{
     /*margin:  475px 30px 30px auto;*/
-    margin:  470px 30px 30px auto;
+    margin:  415px 30px 30px auto;
   }
 }
 @media screen and (min-width:961px){
@@ -456,7 +461,7 @@ export default {
   }
   .preview-container{
     /*margin:  475px 30px 30px auto;*/
-    margin:  470px 30px 30px auto;
+    margin:  415px 30px 30px auto;
   }
 }
 
@@ -508,6 +513,10 @@ export default {
   padding: 20px;
   mso-border-shadow: yes;
   filter:drop-shadow(4px 4px 10px rgba(0,0,0,0.1));
+}
+
+.preview-fold{
+  margin:  240px 30px 30px auto;
 }
 
 #OutputDiv{

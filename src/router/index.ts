@@ -8,7 +8,7 @@ const routes = [
     path: '/',
     name: 'Index',
     // component: Home
-    component: () => import(/* webpackChunkName: "about" */ '../views/index/Index.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../components/Index.vue')
   },
   {
     path: '/death-notice',
@@ -23,7 +23,7 @@ const routes = [
   // {
   //   path: '/index',
   //   name: 'Index',
-  //   component: () => import(/* webpackChunkName: "about" */ '../components/Index.vue')
+  //   component: () => import(/* webpackChunkName: "about" */ '../components/Navbar.vue')
   // }
 ]
 
