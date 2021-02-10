@@ -7,15 +7,17 @@ set -e
 npm run build
 
 # 进入生成的文件夹
-cd .vuepress/dist
+cd ./dist
 
 # 生成CNAME
 touch CNAME
 echo hud.hlae.site > CNAME
 
 git init
+git config --global user.name "Purple-CSGO"
+git config --global user.email "438518244@qq.com"
 git add -A
-git commit -m 'deploy'
+git commit -m '手动部署'
 
 # 如果发布到 https://<USERNAME>.github.io
 git remote add origin git@github.com:One-Studio/One-Studio.github.io.git
