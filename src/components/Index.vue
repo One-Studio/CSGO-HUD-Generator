@@ -1,15 +1,13 @@
 <template>
   <div>
     <div>
-      <a-card style="width: 1088px" class="index-card" :bordered=false >
-        <img class="logo" :src="require(`../assets/One Studio alpha.png`)"/>
-        <h1 style="font-size: 48px;padding-left: 10px">  CSGO HUD Generator</h1>
-<!--        <h2>自定义生成击杀和准星图片</h2>-->
-        <a-space>
-          <a-button size="large" @click="gotoDeathnotice">击杀生成</a-button>
-          <a-button size="large" @click="gotoCrosshair">准星生成</a-button>
-        </a-space>
-       </a-card>
+      <img class="logo" :src="require(`../assets/One Studio alpha.png`)"/>
+      <h1 style="font-size: 48px;padding-left: 10px">  CSGO HUD Generator</h1>
+      <!--        <h2>自定义生成击杀和准星图片</h2>-->
+      <a-space>
+        <a-button size="large" @click="gotoDeathnotice">击杀生成</a-button>
+        <a-button size="large" @click="gotoCrosshair">准星生成</a-button>
+      </a-space>
     </div>
   </div>
 </template>

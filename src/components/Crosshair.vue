@@ -155,7 +155,7 @@ export default {
 @media screen and (max-width:960px){
   /* 当屏幕宽度小于960px时，适配的CSS代码块*/
   .preference-container{
-    margin: 30px 5% auto 5%;
+    margin: 90px 5% auto 5%;
   }
   .preview-container{
     margin: 30px 5% auto 5%;

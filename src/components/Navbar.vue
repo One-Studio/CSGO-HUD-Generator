@@ -9,11 +9,11 @@
           <li @click="otherClickFun">其他</li>
           <!-- <li class="page-icon">？</li> -->
         </ul>
-        <div class="head-icon">
-          <a-icon type="question-circle" /><span style="margin-left: 10px"
-            >中文/En</span
-          >
-        </div>
+<!--        <div class="head-icon">-->
+<!--          <a-icon type="question-circle" /><span style="margin-left: 10px"-->
+<!--            >中文/En</span-->
+<!--          >-->
+<!--        </div>-->
       </div>
     </div>
   </div>
@@ -58,6 +58,26 @@ export default class Index extends Vue {
 </script>
 
 <style lang="less" scoped>
+
+@media screen and (max-width:820px){
+  /* 当屏幕宽度小于820px时，适配的CSS代码块*/
+  .head-inner-box {
+    width: 96%;
+  }
+  li {
+    margin-right: 20px;
+  }
+}
+@media screen and (min-width:821px){
+  /* 当屏幕宽度大于等于821px时，适配的CSS代码块*/
+  .head-inner-box {
+    width: 70%;
+  }
+  li {
+    margin-right: 30px;
+  }
+}
+
 .head-out-box {
   width: 100%;
   height: 60px;
@@ -74,7 +94,7 @@ export default class Index extends Vue {
     max-height: 60px;
   }
   .head-inner-box {
-    width: 1088px;
+    //width: 1088px;
     display: table;
     content: '';
     height: 100%;
@@ -93,7 +113,6 @@ export default class Index extends Vue {
         cursor: pointer;
         display: inline;
         float: left;
-        margin-right: 30px;
         font-size: 15px;
       }
     }
