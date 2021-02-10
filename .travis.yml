@@ -8,7 +8,7 @@ script:
 after_script:
   - cd .vuepress/dist
   - touch CNAME
-  - echo dev.hlae.site > CNAME
+  - echo hud.hlae.site > CNAME
   - git init
   - git add -A
   - git commit -m 'deploy'
