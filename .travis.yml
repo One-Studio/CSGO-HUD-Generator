@@ -6,7 +6,11 @@ install:
 script:
   - yarn build
 after_script:
+  - echo Debug directory
+  - ls -l
   - cd ./dist
+  - echo Debug dist
+  - ls -l
   - touch CNAME
   - echo hud.hlae.site > CNAME
   - git init
