@@ -1,0 +1,20 @@
+language: node_js
+node_js:
+  - lts/*
+install:
+  - yarn install # npm ci
+script:
+  - yarn build
+after_script:
+  - cd .vuepress/dist
+  - touch CNAME
+  - echo dev.hlae.site > CNAME
+  - git init
+  - git add -A
+  - git commit -m 'deploy'
+  - git remote add origin git@github.com:One-Studio/One-Studio.github.io.git
+  - git push --force --quiet "https://${GITHUB_TOKEN}@${GH_REF}" master:master
+
+env:
+  global:
+      - GH_REF: github.com/One-Studio/One-Studio.github.io.git
